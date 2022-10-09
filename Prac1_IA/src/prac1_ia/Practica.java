@@ -16,7 +16,6 @@ public class Practica {
      private static Clientes clientes; 
      private static VEnergia venergia; 
      
-    
     public static void main(String[] args) throws Exception {
         int[] ignasi = {10,20,15}; 
         centrales = new Centrales(ignasi,1);
