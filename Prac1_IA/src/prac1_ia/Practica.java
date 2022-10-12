@@ -39,7 +39,6 @@ public class Practica {
      }
      
      
-    
     public static void main(String[] args) throws Exception {
         
         int[] ia = {10,20,15}; 
