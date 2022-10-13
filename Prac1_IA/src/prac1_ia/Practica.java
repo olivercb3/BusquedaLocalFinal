@@ -20,20 +20,27 @@ public class Practica {
     
      
      
-     public static void InitialState() {
+     public static void InitialState() { //estat inicial on s'assignen els clients a les centrals a mesura que es van omplint.
         int indice_cliente = 0;
         for (int i = 0; i < centrales.size(); ++i) {
             boolean max_superat = false;
-            double max_produccion = centrales.get(i).getProduccion();
+            double produccion_restante = centrales.get(i).getProduccion();
             for (int j = indice_cliente; j < clientes.size() && max_superat == false; ++j) {
-                if (clientes.get(j).getConsumo() < max_produccion) {
-                    table[j][i] = 1;
-                    max_produccion -= clientes.get(j).getConsumo();
+                if (clientes.get(j).getConsumo() < produccion_restante) {
+                    table[0][indice_cliente] = i;
+                    table[1][indice_cliente] = j;
+                    produccion_restante -= clientes.get(j).getConsumo();
                     ++indice_cliente;
                 }
                 else {
                     max_superat = true;
                 }
+            }
+        }
+        if (indice_cliente < clientes.size()) {
+            for (int i = indice_cliente; i < clientes.size(); ++i) {
+                table[0][indice_cliente] = centrales.size();
+                table[1][indice_cliente] = i;
             }
         }
      }
@@ -45,7 +52,7 @@ public class Practica {
         double[] cl = {0.2, 0.3, 0.5}; 
         centrales = new Centrales(ia,1);
         clientes = new Clientes(30000, cl, 0.5, 291200) ;
-        table = new int[clientes.size()][centrales.size()];
+        table = new int[2][clientes.size()];
         InitialState();
         for (int i = 0; i < table.length; ++i) {
             for (int j = 0; j < table[0].length; ++j) {
@@ -53,15 +60,6 @@ public class Practica {
             }
             System.out.println();
         }
-        System.out.println(centrales.get(centrales.size()-1).getProduccion());
-        
-        int consumo_total = 0;
-        for (int i = clientes.size()-2; i < clientes.size(); ++i) {
-            consumo_total += clientes.get(i).getConsumo();
-        }
-        System.out.println(consumo_total);
-        
-        
     }
     
 }
