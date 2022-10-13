@@ -47,21 +47,14 @@ public class Practica {
         clientes = new Clientes(30000, cl, 0.5, 291200) ;
         table = new int[clientes.size()][centrales.size()];
         InitialState();
-        for (int i = 0; i < table.length; ++i) {
-            for (int j = 0; j < table[0].length; ++j) {
-                System.out.print(table[i][j] + " ");
-            }
-            System.out.println();
+        
+        
+        int max_y = 99;
+        int max_x = 99; 
+        for (int i = 0; i < clientes.size(); ++i) {
+            if (max_y > clientes.get(i).getCoordY()) max_y = clientes.get(i).getCoordY(); 
+            if (max_x > clientes.get(i).getCoordX()) max_x = clientes.get(i).getCoordX(); 
         }
-        System.out.println(centrales.get(centrales.size()-1).getProduccion());
-        
-        int consumo_total = 0;
-        for (int i = clientes.size()-2; i < clientes.size(); ++i) {
-            consumo_total += clientes.get(i).getConsumo();
-        }
-        System.out.println(consumo_total);
-        
-        
+        System.out.println(max_x + " " + max_y);
     }
-    
 }
