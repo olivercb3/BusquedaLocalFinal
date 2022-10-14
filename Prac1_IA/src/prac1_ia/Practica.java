@@ -51,7 +51,7 @@ public class Practica {
         int[] ia = {10,20,15}; 
         double[] cl = {0.2, 0.3, 0.5}; 
         centrales = new Centrales(ia,1);
-        clientes = new Clientes(30000, cl, 0.5, 291200) ;
+        clientes = new Clientes(600, cl, 0.5, 291200) ;
         table = new int[2][clientes.size()];
         InitialState();
         for (int i = 0; i < table.length; ++i) {
