@@ -15,10 +15,7 @@ public class Practica {
      private static Centrales centrales; 
      private static Clientes clientes; 
      private static VEnergia venergia;
-     private static int[][] table;
-
-    
-     
+     private static int[][] table; 
      
      public static void InitialState() { //estat inicial on s'assignen els clients a les centrals a mesura que es van omplint.
         int indice_cliente = 0;
