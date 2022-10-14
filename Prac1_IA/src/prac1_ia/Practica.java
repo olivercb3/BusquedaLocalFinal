@@ -27,7 +27,7 @@ public class Practica {
                     table[0][indice_cliente] = i;
                     table[1][indice_cliente] = j;
                     produccion_restante -= clientes.get(j).getConsumo();
-                    ++indice_cliente;
+                    ++indice_cliente;tt
                 }
                 else {
                     max_superat = true;
