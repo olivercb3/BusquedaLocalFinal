@@ -4,14 +4,19 @@
  */
 package prac1_ia;
 
+import aima.search.framework.Successor;
 import aima.search.framework.SuccessorFunction;
 import java.util.List;
 
 public class SuccesorFunctionEnergy implements SuccessorFunction {
+    
+    private List<Successor> sucesores;
+    
 
     @Override
     public List getSuccessors(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        sucesores = new List<Successor> (o); 
     }
     
+    public 
 }
