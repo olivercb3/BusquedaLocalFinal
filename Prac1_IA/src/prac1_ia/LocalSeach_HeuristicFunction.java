@@ -4,10 +4,15 @@
  */
 package prac1_ia;
 
+import aima.search.framework.HeuristicFunction;
 /**
  *
  * @author olivercemelibarron
  */
-public class GoalTest {
-    
+public class LocalSeach_HeuristicFunction implements HeuristicFunction {
+
+
+    public double getHeuristicValue(Object o) {
+        return 0;
+    }
 }

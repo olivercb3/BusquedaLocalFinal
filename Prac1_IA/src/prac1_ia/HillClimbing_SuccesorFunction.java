@@ -4,10 +4,18 @@
  */
 package prac1_ia;
 
+import aima.search.framework.Successor;
+import aima.search.framework.SuccessorFunction;
+
+import java.util.List;
+
 /**
  *
  * @author olivercemelibarron
  */
-public class Heuristic {
-    
+public class HillClimbing_SuccesorFunction implements SuccessorFunction {
+
+    public List getSuccessors(Object o) {
+        return null;
+    }
 }
