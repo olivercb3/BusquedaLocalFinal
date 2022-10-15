@@ -5,10 +5,7 @@
 package prac1_ia;
 import IA.Energia.*;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-import java.util.Random;
+import java.util.*;
 
 
 import aima.search.framework.Problem;
@@ -27,8 +24,8 @@ public class Practica {
      public static Centrales centrales;
      public static Clientes clientes;
      public static VEnergia venergia;
-     public static int[][] table;
-     public static double  [] produccion_restante;
+     public static ArrayList<ArrayList<Integer>> table;
+    public static double  [] produccion_restante;
      
      public static void InitialState() { //estat inicial on s'assignen els clients a les centrals a mesura que es van omplint.
         int indice_cliente = 0;
@@ -39,8 +36,7 @@ public class Practica {
             produccion_restante[i] = centrales.get(i).getProduccion();
             for (int j = indice_cliente; j < clientes.size() && max_superat == false; ++j) {
                 if (clientes.get(j).getConsumo() < produccion_restante[i]) {
-                    table[0][indice_cliente] = i;
-                    table[1][indice_cliente] = j;
+                    table.get(i).add(j);
                     produccion_restante[i] -= clientes.get(j).getConsumo();
                     ++indice_cliente;
                 }
@@ -51,15 +47,14 @@ public class Practica {
         }
         if (indice_cliente < clientes.size()) {
             for (int i = indice_cliente; i < clientes.size(); ++i) {
-                table[0][indice_cliente] = centrales.size();
-                table[1][indice_cliente] = i;
+                table.get(centrales.size()).add(i);
             }
         }
      }
      
      
     public static void main(String[] args) throws Exception {
-        
+
         int[] numero_centrales = {10,20,15};
         int numero_clientes = 30000;
 
@@ -75,28 +70,35 @@ public class Practica {
         centrales = new Centrales(numero_centrales, 1);
         clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200) ;
 
-        table = new int[2][numero_clientes];
+        table = new ArrayList<>(centrales.size()+1);
 
-        System.out.println("tamano 0:" + table[0].length);
-        System.out.println("tamano 1:" + table[1].length);
+        for(int i=0; i < clientes.size(); i++) {
+            table.add(new ArrayList());
+        }
 
         InitialState();
 
-        System.out.println();
 
-        System.out.println("posicion 1935 1:" + table[0][1935]);
-        System.out.println("posicion 1935 1:" + table[1][1935]);
-
-        System.out.println();
-
-        System.out.println("posicion 1936 1:" + table[0][1936]);
-        System.out.println("posicion 1936 1:" + table[1][1936]);
+        for (int i = 0; i < table.size(); ++i) {
+            System.out.print(i + ": ");
+            for (int j = 0; j < table.get(i).size(); ++j) {
+                System.out.print(table.get(i).get(j) + " ");
 
         System.out.println();
 
-        for (int i = 0; i < table.length; ++i) {
-            for (int j = 0; j < table[0].length; ++j) {
-                System.out.print(table[i][j] + " ");
+        System.out.println("posicion 1935 1:" + table.get(0).get(1935));
+        System.out.println("posicion 1935 1:" + table.get(1).get(1935));
+
+        System.out.println();
+
+        System.out.println("posicion 1936 1:" + table.get(0).get(1936));
+        System.out.println("posicion 1936 1:" + table.get(1).get(1936));
+
+        System.out.println();
+
+        for (int i = 0; i < table.size(); ++i) {
+            for (int j = 0; j < table.get(i).size(); ++j) {
+                System.out.print(table.get(i).get(j) + " ");
             }
             System.out.println();
         }

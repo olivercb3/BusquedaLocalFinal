@@ -5,17 +5,13 @@
 package prac1_ia;
 
 import aima.search.framework.HeuristicFunction;
-<<<<<<< HEAD:Prac1_IA/src/prac1_ia/Heuristic.java
 
 import java.util.ArrayList;
 
-=======
->>>>>>> 00665430942d3e6b576be2bda6958db68c1419da:Prac1_IA/src/prac1_ia/LocalSeach_HeuristicFunction.java
 /**
  *
  * @author olivercemelibarron
  */
-<<<<<<< HEAD:Prac1_IA/src/prac1_ia/Heuristic.java
 public abstract class Heuristic implements HeuristicFunction {
     
     private int[][] Asignaciones;
@@ -36,12 +32,4 @@ public abstract class Heuristic implements HeuristicFunction {
         }    
     }
     
-=======
-public class LocalSeach_HeuristicFunction implements HeuristicFunction {
-
-
-    public double getHeuristicValue(Object o) {
-        return 0;
-    }
->>>>>>> 00665430942d3e6b576be2bda6958db68c1419da:Prac1_IA/src/prac1_ia/LocalSeach_HeuristicFunction.java
 }
