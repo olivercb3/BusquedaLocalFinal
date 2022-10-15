@@ -83,6 +83,8 @@ public class Practica {
             System.out.print(i + ": ");
             for (int j = 0; j < table.get(i).size(); ++j) {
                 System.out.print(table.get(i).get(j) + " ");
+            }
+        }
 
         System.out.println();
 
@@ -119,10 +121,10 @@ public class Practica {
         }
     }
 
-    private static void TSPSimulatedAnnealingSearch(Board TSPB) {
+    private static void TSPSimulatedAnnealingSearch(Board board) {
         System.out.println("\nTSP Simulated Annealing  -->");
         try {
-            Problem problem =  new Problem(TSPB,new SA_SuccessorFunction(), new LocalSearch_GoalTest(), new LocalSeach_HeuristicFunction());
+            Problem problem =  new Problem(board,new SA_SuccessorFunction(), new LocalSearch_GoalTest(), new LocalSeach_HeuristicFunction());
             SimulatedAnnealingSearch search =  new SimulatedAnnealingSearch(2000,100,5,0.001);
             //search.traceOn();
             SearchAgent agent = new SearchAgent(problem,search);
