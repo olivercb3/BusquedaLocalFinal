@@ -24,21 +24,24 @@ import aima.search.informed.SimulatedAnnealingSearch;
 public class Practica {
 
     
-     private static Centrales centrales; 
-     private static Clientes clientes; 
-     private static VEnergia venergia;
-     private static int[][] table; 
+     public static Centrales centrales;
+     public static Clientes clientes;
+     public static VEnergia venergia;
+     public static int[][] table;
+     public static double  [] produccion_restante;
      
      public static void InitialState() { //estat inicial on s'assignen els clients a les centrals a mesura que es van omplint.
         int indice_cliente = 0;
+        produccion_restante = new double[centrales.size()];
+
         for (int i = 0; i < centrales.size(); ++i) {
             boolean max_superat = false;
-            double produccion_restante = centrales.get(i).getProduccion();
+            produccion_restante[i] = centrales.get(i).getProduccion();
             for (int j = indice_cliente; j < clientes.size() && max_superat == false; ++j) {
-                if (clientes.get(j).getConsumo() < produccion_restante) {
+                if (clientes.get(j).getConsumo() < produccion_restante[i]) {
                     table[0][indice_cliente] = i;
                     table[1][indice_cliente] = j;
-                    produccion_restante -= clientes.get(j).getConsumo();
+                    produccion_restante[i] -= clientes.get(j).getConsumo();
                     ++indice_cliente;
                 }
                 else {
@@ -57,12 +60,40 @@ public class Practica {
      
     public static void main(String[] args) throws Exception {
         
-        int[] ia = {10,20,15}; 
-        double[] cl = {0.2, 0.3, 0.5}; 
-        centrales = new Centrales(ia,1);
-        clientes = new Clientes(30000, cl, 0.5, 291200) ;
-        table = new int[2][clientes.size()];
+        int[] numero_centrales = {10,20,15};
+        int numero_clientes = 30000;
+
+        Random myRandom = new Random(100);
+        myRandom.nextInt(1000);
+        double p1 = myRandom.nextInt(1000) / 1000.0;
+        double p2 = myRandom.nextInt((int)((1-p1) * 1000)) / 1000.0;
+        double p3 = 1-p1-p2;
+
+        double[] proporcion_tipos_clientes = {p1, p2, p3};
+        double proporcion_prioridad = myRandom.nextInt(1000) / 1000.0;
+
+        centrales = new Centrales(numero_centrales, 1);
+        clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200) ;
+
+        table = new int[2][numero_clientes];
+
+        System.out.println("tamano 0:" + table[0].length);
+        System.out.println("tamano 1:" + table[1].length);
+
         InitialState();
+
+        System.out.println();
+
+        System.out.println("posicion 1935 1:" + table[0][1935]);
+        System.out.println("posicion 1935 1:" + table[1][1935]);
+
+        System.out.println();
+
+        System.out.println("posicion 1936 1:" + table[0][1936]);
+        System.out.println("posicion 1936 1:" + table[1][1936]);
+
+        System.out.println();
+
         for (int i = 0; i < table.length; ++i) {
             for (int j = 0; j < table[0].length; ++j) {
                 System.out.print(table[i][j] + " ");
