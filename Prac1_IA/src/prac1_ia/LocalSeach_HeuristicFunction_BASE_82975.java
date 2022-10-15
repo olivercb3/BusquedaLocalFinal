@@ -8,6 +8,6 @@ package prac1_ia;
  *
  * @author olivercemelibarron
  */
-public class GoalTest {
+public class Heuristic {
     
 }
