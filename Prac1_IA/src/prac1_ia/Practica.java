@@ -134,4 +134,8 @@ public class Practica {
             System.out.println(action);
         }
     }
+    
+    public static void runSimulation() {
+        //
+    }
 }
