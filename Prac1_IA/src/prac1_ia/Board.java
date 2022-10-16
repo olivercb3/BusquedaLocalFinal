@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Board {
 
-    private static DistanceCalculator distanceCalculator;
+    private static Distance distance;
 
     /**
      * List with all the clients
@@ -34,9 +34,10 @@ public class Board {
 
     /**
      * Constructor for an empty TruckSchedule
-     * @param dc Support structure representing all distribution centers
-     * @param gs Support structure representing all gas stations
-     * @param p Support structure representing all petitions
+     * @param cen Support structure representing all distribution centers
+     * @param cl Support structure representing all gas stations
+     * @param assig Support structure representing all petitions
+     * @param prod_res
      * Creates an empty truck schedule
      */
     public Board(Centrales cen, Clientes cl, ArrayList<ArrayList<Integer>> assig, ArrayList<Double> prod_res) {
@@ -48,7 +49,7 @@ public class Board {
     }
     
     private void initialize(){
-        distanceCalculator = DistanceCalculator.getInstance(this);
+        distance = Distance.getInstance(this);
     }
     
     public ArrayList<ArrayList<Integer>> getAssignacions() {
@@ -57,13 +58,5 @@ public class Board {
     
     public ArrayList<Double> getProduccioRestant() {
         return ProduccioRestant;
-    }
-    
-    public Clientes getClientes() {
-        return clientes;
-    }
-    
-    public Centrales getCentrales() {
-        return centrales;
     }
 }

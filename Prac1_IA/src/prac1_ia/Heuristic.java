@@ -13,12 +13,10 @@ import IA.Energia.Cliente;
  *
  * @author olivercemelibarron
  */
-public abstract class Heuristic implements HeuristicFunction {
+public abstract class Heuristic {
     
     Board state;
     
-    
-    @Override
     public double getHeuristicValue(Object state) {
         this.state = (Board) state;
         try {
