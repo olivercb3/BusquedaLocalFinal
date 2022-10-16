@@ -45,12 +45,13 @@ public class Board {
         clientes = cl;
         assignacions = assig;
         ProduccioRestant = prod_res;
-        initialize();
+        //initialize();
     }
-    
+    /*
     private void initialize(){
         distance = Distance.getInstance(this);
     }
+     */
     
     public ArrayList<ArrayList<Integer>> getAssignacions() {
         return assignacions;
@@ -58,5 +59,13 @@ public class Board {
     
     public ArrayList<Double> getProduccioRestant() {
         return ProduccioRestant;
+    }
+
+    public Clientes getClientes() {
+        return clientes;
+    }
+
+    public Centrales getCentrales() {
+        return centrales;
     }
 }

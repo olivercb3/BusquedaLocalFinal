@@ -15,8 +15,6 @@ import aima.search.informed.GreedyBestFirstSearch;
 
 import static prac1_ia.Practica.centrales;
 import static prac1_ia.Practica.clientes;
-import static prac1_ia.Practica.venergia;
-import static prac1_ia.Practica.produccion_restante;
 
 public class GreedySolution {
 
@@ -29,7 +27,8 @@ public class GreedySolution {
         centrales = new Centrales(numero_centrales, 1);
         clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200);
 
-        GreedyBoard board = new GreedyBoard(numero_clientes);
+        int n_centrales = numero_centrales[0] + numero_centrales[1] + numero_centrales[2];
+        GreedyBoard board = new GreedyBoard(n_centrales, numero_clientes);
         GreedyBestSearch(board);
     }
 

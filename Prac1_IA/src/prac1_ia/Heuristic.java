@@ -13,7 +13,7 @@ import IA.Energia.Cliente;
  *
  * @author olivercemelibarron
  */
-public abstract class Heuristic {
+public class Heuristic implements HeuristicFunction {
     
     Board state;
     
