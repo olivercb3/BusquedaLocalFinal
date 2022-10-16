@@ -11,13 +11,17 @@ public class Distance {
     public static Distance instance; 
     public static double[][] distancias; 
     
-    public Distance(int clientes_size,int centrales_size) {
-        distancias = new double[clientes_size][clientes_size]; 
+    public Distance(int centrales_size,int clientes_size) {
+        distancias = new double[centrales_size][clientes_size]; 
     }
     
-    public static Distance getInstance(int clientes_size,int centrales_size) {
+    public double[][] getDistancias() {
+        return distancias;
+    }
+    
+    public static Distance getInstance(int centrales_size,int clientes_size) {
         if (instance == null) {
-            instance = new Distance(clientes_size,centrales_size);
+            instance = new Distance(centrales_size,clientes_size);
         }
         return instance;
     }

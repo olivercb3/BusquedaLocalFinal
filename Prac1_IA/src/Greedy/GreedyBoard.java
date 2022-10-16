@@ -3,6 +3,7 @@ package Greedy;
 import IA.Energia.VEnergia;
 
 import java.util.ArrayList;
+import prac1_ia.Distance;
 
 import static prac1_ia.Practica.centrales;
 import static prac1_ia.Practica.clientes;
@@ -11,9 +12,15 @@ public class GreedyBoard {
 
     //Cada posicion i representa al cliente i, y su contenido su central assignada
     private static ArrayList<ArrayList<Integer>> assignacions;
+    private static Distance distancia; 
 
     public GreedyBoard(int n_centrales, int n_clientes){
-
+        
+        
+        distancia = Distance.getInstance(n_centrales,n_clientes); 
+        double [][] distancias = distancia.getDistancias();
+        
+        
         assignacions = new ArrayList<ArrayList <Integer>>(n_centrales + 1);
         ArrayList<Integer> Central_Vacia = assignacions.get(n_centrales);
         for(int i = 0; i < n_clientes; ++i)
