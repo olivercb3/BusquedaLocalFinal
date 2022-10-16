@@ -26,7 +26,7 @@ public class Practica {
      
      public static void InitialState() { //estat inicial on s'assignen els clients a les centrals a mesura que es van omplint.
         int indice_cliente = 0;
-         double [] produccion_restante = new double[centrales.size()];
+        double [] produccion_restante = new double[centrales.size()];
 
         for (int i = 0; i < centrales.size(); ++i) {
             boolean max_superat = false;
@@ -55,7 +55,7 @@ public class Practica {
         int[] numero_centrales = {10,20,15};
         int numero_clientes = 3000;
 
-        Random myRandom = new Random(100);
+        Random myRandom = new Random(numero_clientes);
         myRandom.nextInt(1000);
         double p1 = myRandom.nextInt(1000) / 1000.0;
         double p2 = myRandom.nextInt((int)((1-p1) * 1000)) / 1000.0;
