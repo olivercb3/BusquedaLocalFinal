@@ -4,7 +4,6 @@
  */
 package prac1_ia;
 import IA.Energia.*;
-
 import java.util.*;
 
 
