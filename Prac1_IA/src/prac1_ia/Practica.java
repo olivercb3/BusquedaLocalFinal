@@ -66,7 +66,7 @@ public class Practica {
         double proporcion_prioridad = myRandom.nextInt(1000) / 1000.0;
 
         centrales = new Centrales(numero_centrales, 1);
-        clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200) ;
+        clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200);
 
         assignacions = new ArrayList<>(centrales.size()+1);
         int n_centrales = numero_centrales[0] + numero_centrales[1] + numero_centrales[2];

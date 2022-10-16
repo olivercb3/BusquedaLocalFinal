@@ -28,6 +28,10 @@ public class GreedyBoard {
         }
     }
 
+    public ArrayList<ArrayList<Integer>> getAssignacions() {
+        return assignacions;
+    }
+
     /*
     public boolean puede_añadir_cliente (int cliente, int central) {
 
@@ -51,4 +55,6 @@ public class GreedyBoard {
 
         return true;
     }
+
+
 }
