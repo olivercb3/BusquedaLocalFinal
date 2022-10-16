@@ -15,11 +15,11 @@ import IA.Energia.Cliente;
  */
 public class Heuristic implements HeuristicFunction {
     
-    Board state;
+    private static Board state;
     
     @Override
     public double getHeuristicValue(Object state) {
-        this.state = (Board) state;
+        Heuristic.state = (Board) state;
         try {
             return -heuristicValue();
         }
@@ -31,8 +31,8 @@ public class Heuristic implements HeuristicFunction {
     public double heuristicValue() throws Exception {
         int sum = 0;
         int tipo_central;
-        for (int i = 0; i < state.getAssignacions().size(); ++i) {
-            int numero_clients = state.getAssignacions().get(i).size();
+        for (int i = 0; i < state.getAssignaciones().size(); ++i) {
+            int numero_clients = state.getAssignaciones().get(i).size();
             tipo_central = state.getCentrales().get(i).getTipo();
             if (numero_clients == 0) {
                 sum -= VEnergia.getCosteParada(tipo_central);
@@ -40,7 +40,7 @@ public class Heuristic implements HeuristicFunction {
             else {
                 int sum_prov = 0;
                 for (int j = 0; j < numero_clients; ++j) {
-                    int index_client = state.getAssignacions().get(i).get(j);
+                    int index_client = state.getAssignaciones().get(i).get(j);
                     Cliente cl = state.getClientes().get(index_client);
                     if (cl.getContrato() == 0) { //Garantizada
                         sum += cl.getConsumo()*VEnergia.getTarifaClienteGarantizada(cl.getTipo());

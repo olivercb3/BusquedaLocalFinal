@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package prac1_ia;
 import IA.Energia.*;
 import java.util.*;
@@ -13,43 +9,10 @@ import aima.search.framework.SearchAgent;
 import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
 
-/**
- *
- * @author olivercemelibarron
- */
 public class Practica {
-
-
-     public static Centrales centrales;
-     public static Clientes clientes;
-     public static ArrayList<ArrayList<Integer>> assignacions;
-
-    //estat inicial on s'assignen els clients a les centrals a mesura que es van omplint.
-     public static void InitialState(int n_centrales, int n_clientes) {
-        int indice_cliente = 0;
-        double [] produccion_restante = new double[centrales.size()];
-
-        for (int i = 0; i < centrales.size(); ++i) {
-            boolean max_superat = false;
-            produccion_restante[i] = centrales.get(i).getProduccion();
-            for (int j = indice_cliente; j < clientes.size() && max_superat == false; ++j) {
-                if (clientes.get(j).getConsumo() < produccion_restante[i]) {
-                    assignacions.get(i).add(j);
-                    produccion_restante[i] -= clientes.get(j).getConsumo();
-                    ++indice_cliente;
-                }
-                else {
-                    max_superat = true;
-                }
-            }
-        }
-        if (indice_cliente < clientes.size()) {
-            for (int i = indice_cliente; i < clientes.size(); ++i) {
-                assignacions.get(centrales.size()).add(i);
-            }
-        }
-     }
-     
+    
+    private static Board board; 
+    private static ArrayList<ArrayList<Integer>> assignaciones; 
      
     public static void main(String[] args) throws Exception {
 
@@ -65,41 +28,21 @@ public class Practica {
         double[] proporcion_tipos_clientes = {p1, p2, p3};
         double proporcion_prioridad = myRandom.nextInt(1000) / 1000.0;
 
-        centrales = new Centrales(numero_centrales, 1);
-        clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200);
+        Centrales centrales = new Centrales(numero_centrales, 1);
+        Clientes clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200);
 
-        assignacions = new ArrayList<>(centrales.size()+1);
-        int n_centrales = numero_centrales[0] + numero_centrales[1] + numero_centrales[2];
+        
+        board = new Board(centrales,clientes);
+        
+        assignaciones = board.getAssignaciones();
 
-        InitialState(n_centrales, numero_clientes);
-
-
-        for (int i = 0; i < assignacions.size(); ++i) {
+        for (int i = 0; i < assignaciones.size(); ++i) {
             System.out.print(i + ": ");
-            for (int j = 0; j < assignacions.get(i).size(); ++j) {
-                System.out.print(assignacions.get(i).get(j) + " ");
+            for (int j = 0; j < assignaciones.get(i).size(); ++j) {
+                System.out.print(assignaciones.get(i).get(j) + " ");
             }
         }
-
         System.out.println();
-        
-
-        /*System.out.println("posicion 1935 1:" + table.get(0).get(1935));
-        System.out.println("posicion 1935 1:" + table.get(1).get(1935));
-
-        System.out.println();
-
-        System.out.println("posicion 1936 1:" + table.get(0).get(1936));
-        System.out.println("posicion 1936 1:" + table.get(1).get(1936));
-
-        System.out.println();
-
-        for (int i = 0; i < table.size(); ++i) {
-            for (int j = 0; j < table.get(i).size(); ++j) {
-                System.out.print(table.get(i).get(j) + " ");
-            }
-            System.out.println();
-        }*/
     }
 
     private static void TSPHillClimbingSearch(Board TSPB) {

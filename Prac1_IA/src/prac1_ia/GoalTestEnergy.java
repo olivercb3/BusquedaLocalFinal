@@ -4,11 +4,8 @@
  */
 package prac1_ia;
 import aima.search.framework.GoalTest;
-/**
- *
- * @author JordiOlmo
- */
-public class LocalSearch_GoalTest implements GoalTest {
+
+public class GoalTestEnergy implements GoalTest {
 
     public boolean isGoalState(Object aState) {
         return(false);
