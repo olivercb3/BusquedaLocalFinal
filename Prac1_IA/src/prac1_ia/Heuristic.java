@@ -17,6 +17,7 @@ public class Heuristic implements HeuristicFunction {
     
     Board state;
     
+    @Override
     public double getHeuristicValue(Object state) {
         this.state = (Board) state;
         try {

@@ -82,6 +82,7 @@ public class Practica {
         }
 
         System.out.println();
+        
 
         /*System.out.println("posicion 1935 1:" + table.get(0).get(1935));
         System.out.println("posicion 1935 1:" + table.get(1).get(1935));

@@ -9,10 +9,10 @@ import IA.Energia.Clientes;
 
 public class Distance {
     public static Distance instance; 
-    public static int[][] distancias; 
+    public static double[][] distancias; 
     
     public Distance(int clientes_size,int centrales_size) {
-        distancias = new int[clientes_size][clientes_size]; 
+        distancias = new double[clientes_size][clientes_size]; 
     }
     
     public static Distance getInstance(int clientes_size,int centrales_size) {
@@ -32,15 +32,15 @@ public class Distance {
          }
     }
     
-    public int distancia(int x1,int y1, int x2,int y2) {
-        int primera_resta = x2-x1; 
-        int segunda_resta = y2-y1;
+    public double distancia(int x1,int y1, int x2,int y2) {
+        double primera_resta = x2-x1; 
+        double segunda_resta = y2-y1;
         
-        int primer_elemento = (int) Math.pow(primera_resta,2); 
-        int segundo_elemento = (int) Math.pow(segunda_resta,2); 
+        double primer_elemento = Math.pow(primera_resta,2.0); 
+        double segundo_elemento = Math.pow(segunda_resta,2.0); 
         
-        int result = primer_elemento + segundo_elemento; 
+        double result = primer_elemento + segundo_elemento; 
         
-        return (int) Math.sqrt(result); 
+        return Math.sqrt(result); 
     }
 }
