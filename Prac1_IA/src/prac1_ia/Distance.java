@@ -8,18 +8,16 @@ import IA.Energia.Centrales;
 import IA.Energia.Clientes;
 
 public class Distance {
-    public static String value; 
     public static Distance instance; 
     public static int[][] distancias; 
     
-    public Distance(String value) {
-        Distance.value = value; 
-        distancias = new int[100][100]; 
+    public Distance(int clientes_size,int centrales_size) {
+        distancias = new int[clientes_size][clientes_size]; 
     }
     
-    public static Distance getInstance(String value) {
+    public static Distance getInstance(int clientes_size,int centrales_size) {
         if (instance == null) {
-            instance = new Distance(value);
+            instance = new Distance(clientes_size,centrales_size);
         }
         return instance;
     }
