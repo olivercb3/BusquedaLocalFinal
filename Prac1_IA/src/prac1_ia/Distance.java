@@ -10,24 +10,27 @@ import IA.Energia.Clientes;
 public class Distance {
     public static Distance instance; 
     public static double[][] distancias; 
+    private static Centrales centrales; 
+    private static Clientes clientes; 
     
-    public Distance(int centrales_size,int clientes_size) {
-        distancias = new double[centrales_size][clientes_size]; 
+    public Distance(Centrales centrales,Clientes clientes) {
+        Distance.centrales = centrales; 
+        Distance.clientes = clientes; 
+        distancias = new double[centrales.size()][clientes.size()]; 
     }
     
     public double[][] getDistancias() {
         return distancias;
     }
     
-    public static Distance getInstance(int centrales_size,int clientes_size) {
+    public static Distance getInstance(Centrales centrales,Clientes clientes) {
         if (instance == null) {
-            instance = new Distance(centrales_size,clientes_size);
+            instance = new Distance(centrales,clientes);
         }
         return instance;
     }
     
-    public void CalculaDistancies(Centrales centrales, 
-     Clientes clientes) {
+    public void CalculaDistancias() {
         for (int i= 0; i < centrales.size();++i) {
          for (int j = 0; j < clientes.size();++j) {
              distancias[i][j] = distancia(clientes.get(i).getCoordX(),clientes.get(i).getCoordY(),

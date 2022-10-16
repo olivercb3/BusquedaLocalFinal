@@ -3,24 +3,17 @@ package Greedy;
 import IA.Energia.VEnergia;
 
 import java.util.ArrayList;
-import prac1_ia.Distance;
+import prac1_ia.*;
 
-import static prac1_ia.Practica.centrales;
-import static prac1_ia.Practica.clientes;
+import static prac1_ia.Practica.*;
 
 public class GreedyBoard {
 
     //Cada posicion i representa al cliente i, y su contenido su central assignada
     private static ArrayList<ArrayList<Integer>> assignacions;
-    private static Distance distancia; 
 
     public GreedyBoard(int n_centrales, int n_clientes){
-        
-        
-        distancia = Distance.getInstance(n_centrales,n_clientes); 
-        double [][] distancias = distancia.getDistancias();
-        
-        
+
         assignacions = new ArrayList<ArrayList <Integer>>(n_centrales + 1);
         ArrayList<Integer> Central_Vacia = assignacions.get(n_centrales);
         for(int i = 0; i < n_clientes; ++i)
@@ -45,13 +38,14 @@ public class GreedyBoard {
 
         Double produccion = centrales.get(central).getProduccion();
         ArrayList<Integer> Central = assignacions.get(central);
-        //provisional, se tiene que cambiar
-        int distancia = 1;
+
+        double [][] d = distancias.getDistancias();
+        Double dist = d[central][cliente];
 
         for (int i = 0; i < Central.size(); ++i)
-            produccion  -= clientes.get(i).getConsumo() / VEnergia.getPerdida(distancia);
+            produccion  -= clientes.get(i).getConsumo() / VEnergia.getPerdida(dist);
 
-        Double consumo = clientes.get(cliente).getConsumo() / VEnergia.getPerdida(distancia);
+        Double consumo = clientes.get(cliente).getConsumo() / VEnergia.getPerdida(dist);
 
         if(produccion - consumo > 0 ) return true;
         else return false;
