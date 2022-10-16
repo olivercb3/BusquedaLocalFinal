@@ -4,12 +4,8 @@
  */
 package prac1_ia;
 import IA.Energia.*;
-import java.util.ArrayList;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-import java.util.Random;
+import java.util.*;
 
 
 import aima.search.framework.Problem;
@@ -25,28 +21,28 @@ import aima.search.informed.SimulatedAnnealingSearch;
 public class Practica {
 
     
-     private static Centrales centrales; 
-     private static Clientes clientes; 
-     private static VEnergia venergia;
-     private static ArrayList<ArrayList<Integer>> table;
-     private static ArrayList<Double> ProduccioRestant;
-     
+     public static Centrales centrales;
+     public static Clientes clientes;
+     public static VEnergia venergia;
+     public static ArrayList<ArrayList<Integer>> table;
+    public static double  [] produccion_restante;
      
      public static void InitialState() { //estat inicial on s'assignen els clients a les centrals a mesura que es van omplint.
         int indice_cliente = 0;
+        produccion_restante = new double[centrales.size()];
+
         for (int i = 0; i < centrales.size(); ++i) {
             boolean max_superat = false;
-            double produccion_restante = ProduccioRestant.get(i);
+            produccion_restante[i] = centrales.get(i).getProduccion();
             for (int j = indice_cliente; j < clientes.size() && max_superat == false; ++j) {
-                if (clientes.get(j).getConsumo() < produccion_restante) {
+                if (clientes.get(j).getConsumo() < produccion_restante[i]) {
                     table.get(i).add(j);
-                    produccion_restante -= clientes.get(j).getConsumo();
+                    produccion_restante[i] -= clientes.get(j).getConsumo();
                     ++indice_cliente;
                 }
                 else {
                     max_superat = true;
                 }
-                ProduccioRestant.set(i, produccion_restante);
             }
         }
         if (indice_cliente < clientes.size()) {
@@ -58,28 +54,51 @@ public class Practica {
      
      
     public static void main(String[] args) throws Exception {
-        
-        int[] ia = {10,20,15}; 
-        double[] cl = {0.2, 0.3, 0.5}; 
-        
-        centrales = new Centrales(ia,1);
-        clientes = new Clientes(600, cl, 0.5, 291200) ;
-        
+
+        int[] numero_centrales = {10,20,15};
+        int numero_clientes = 30000;
+
+        Random myRandom = new Random(100);
+        myRandom.nextInt(1000);
+        double p1 = myRandom.nextInt(1000) / 1000.0;
+        double p2 = myRandom.nextInt((int)((1-p1) * 1000)) / 1000.0;
+        double p3 = 1-p1-p2;
+
+        double[] proporcion_tipos_clientes = {p1, p2, p3};
+        double proporcion_prioridad = myRandom.nextInt(1000) / 1000.0;
+
+        centrales = new Centrales(numero_centrales, 1);
+        clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200) ;
+
         table = new ArrayList<>(centrales.size()+1);
-        ProduccioRestant = new ArrayList<>();
-        
+
         for(int i=0; i < clientes.size(); i++) {
             table.add(new ArrayList());
         }
-        for(int i=0; i < centrales.size(); i++) {
-            ProduccioRestant.add(centrales.get(i).getProduccion()); 
-        }
-        
+
         InitialState();
-        
-        
+
+
         for (int i = 0; i < table.size(); ++i) {
             System.out.print(i + ": ");
+            for (int j = 0; j < table.get(i).size(); ++j) {
+                System.out.print(table.get(i).get(j) + " ");
+            }
+        }
+
+        System.out.println();
+
+        System.out.println("posicion 1935 1:" + table.get(0).get(1935));
+        System.out.println("posicion 1935 1:" + table.get(1).get(1935));
+
+        System.out.println();
+
+        System.out.println("posicion 1936 1:" + table.get(0).get(1936));
+        System.out.println("posicion 1936 1:" + table.get(1).get(1936));
+
+        System.out.println();
+
+        for (int i = 0; i < table.size(); ++i) {
             for (int j = 0; j < table.get(i).size(); ++j) {
                 System.out.print(table.get(i).get(j) + " ");
             }
@@ -102,10 +121,10 @@ public class Practica {
         }
     }
 
-    private static void TSPSimulatedAnnealingSearch(Board TSPB) {
+    private static void TSPSimulatedAnnealingSearch(Board board) {
         System.out.println("\nTSP Simulated Annealing  -->");
         try {
-            Problem problem =  new Problem(TSPB,new SA_SuccessorFunction(), new LocalSearch_GoalTest(), new LocalSeach_HeuristicFunction());
+            Problem problem =  new Problem(board,new SA_SuccessorFunction(), new LocalSearch_GoalTest(), new LocalSeach_HeuristicFunction());
             SimulatedAnnealingSearch search =  new SimulatedAnnealingSearch(2000,100,5,0.001);
             //search.traceOn();
             SearchAgent agent = new SearchAgent(problem,search);
