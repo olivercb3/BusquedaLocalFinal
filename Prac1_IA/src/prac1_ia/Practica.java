@@ -23,8 +23,9 @@ public class Practica {
      public static Centrales centrales;
      public static Clientes clientes;
      public static ArrayList<ArrayList<Integer>> assignacions;
-     
-     public static void InitialState() { //estat inicial on s'assignen els clients a les centrals a mesura que es van omplint.
+
+    //estat inicial on s'assignen els clients a les centrals a mesura que es van omplint.
+     public static void InitialState(int n_centrales, int n_clientes) {
         int indice_cliente = 0;
         double [] produccion_restante = new double[centrales.size()];
 
@@ -69,11 +70,7 @@ public class Practica {
 
         assignacions = new ArrayList<>(centrales.size()+1);
 
-        for(int i=0; i < clientes.size(); i++) {
-            assignacions.add(new ArrayList());
-        }
-
-        InitialState();
+        InitialState(numero_centrales, numero_clientes);
 
 
         for (int i = 0; i < assignacions.size(); ++i) {
