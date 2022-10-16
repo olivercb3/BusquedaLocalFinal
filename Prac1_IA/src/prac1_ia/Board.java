@@ -25,12 +25,12 @@ public class Board {
     /**
      * All Client to power Centers Assignments
      */
-    private static ArrayList<Integer> assignacions;
+    private static ArrayList<ArrayList<Integer>> assignacions;
 
     /**
      * Array with the production left for each power Center
      */
-    private ArrayList<Integer> ProduccioRestant;
+    private ArrayList<Double> ProduccioRestant;
 
     /**
      * Constructor for an empty TruckSchedule
@@ -39,7 +39,7 @@ public class Board {
      * @param p Support structure representing all petitions
      * Creates an empty truck schedule
      */
-    public Board(Centrales cen, Clientes cl, ArrayList<Integer> assig, ArrayList<Integer> prod_res) {
+    public Board(Centrales cen, Clientes cl, ArrayList<ArrayList<Integer>> assig, ArrayList<Double> prod_res) {
         centrales = cen;
         clientes = cl;
         assignacions = assig;
@@ -49,5 +49,21 @@ public class Board {
     
     private void initialize(){
         distanceCalculator = DistanceCalculator.getInstance(this);
+    }
+    
+    public ArrayList<ArrayList<Integer>> getAssignacions() {
+        return assignacions;
+    }
+    
+    public ArrayList<Double> getProduccioRestant() {
+        return ProduccioRestant;
+    }
+    
+    public Clientes getClientes() {
+        return clientes;
+    }
+    
+    public Centrales getCentrales() {
+        return centrales;
     }
 }

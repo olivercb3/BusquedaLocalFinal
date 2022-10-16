@@ -24,7 +24,7 @@ public class Practica {
      public static Clientes clientes;
      public static VEnergia venergia;
      public static ArrayList<ArrayList<Integer>> table;
-    public static double  [] produccion_restante;
+     public static double  [] produccion_restante;
      
      public static void InitialState() { //estat inicial on s'assignen els clients a les centrals a mesura que es van omplint.
         int indice_cliente = 0;
@@ -55,7 +55,7 @@ public class Practica {
     public static void main(String[] args) throws Exception {
 
         int[] numero_centrales = {10,20,15};
-        int numero_clientes = 30000;
+        int numero_clientes = 3000;
 
         Random myRandom = new Random(100);
         myRandom.nextInt(1000);
@@ -87,7 +87,7 @@ public class Practica {
 
         System.out.println();
 
-        System.out.println("posicion 1935 1:" + table.get(0).get(1935));
+        /*System.out.println("posicion 1935 1:" + table.get(0).get(1935));
         System.out.println("posicion 1935 1:" + table.get(1).get(1935));
 
         System.out.println();
@@ -102,7 +102,7 @@ public class Practica {
                 System.out.print(table.get(i).get(j) + " ");
             }
             System.out.println();
-        }
+        }*/
     }
 
     private static void TSPHillClimbingSearch(Board TSPB) {
