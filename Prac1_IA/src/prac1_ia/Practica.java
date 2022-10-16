@@ -19,44 +19,75 @@ import aima.search.informed.SimulatedAnnealingSearch;
  */
 public class Practica {
 
-
      public static Centrales centrales;
      public static Clientes clientes;
      public static ArrayList<ArrayList<Integer>> assignacions;
+     public static  Distance distancias;
 
     //estat inicial on s'assignen els clients a les centrals a mesura que es van omplint.
      public static void InitialState(int n_centrales, int n_clientes) {
-        int indice_cliente = 0;
+
+        int indice_central = 0;
         double [] produccion_restante = new double[centrales.size()];
 
-        for (int i = 0; i < centrales.size(); ++i) {
+        for (int i = indice_central; i < centrales.size(); ++i) {
+
             boolean max_superat = false;
+            int indice_clientes = 0;
             produccion_restante[i] = centrales.get(i).getProduccion();
-            for (int j = indice_cliente; j < clientes.size() && max_superat == false; ++j) {
-                if (clientes.get(j).getConsumo() < produccion_restante[i]) {
+            for (int j = indice_clientes; j < clientes.size() && max_superat == false; ++j) {
+
+                Cliente cl = clientes.get(j);
+                if (cl.getContrato() == 0 && cl.getConsumo() < produccion_restante[i]) {
                     assignacions.get(i).add(j);
                     produccion_restante[i] -= clientes.get(j).getConsumo();
-                    ++indice_cliente;
+                    ++indice_clientes;
                 }
                 else {
                     max_superat = true;
+                    ++indice_central;
                 }
             }
         }
-        if (indice_cliente < clientes.size()) {
-            for (int i = indice_cliente; i < clientes.size(); ++i) {
+
+        for (int i = 0; i < clientes.size(); ++i)
                 assignacions.get(centrales.size()).add(i);
-            }
-        }
+
+         //En este punto es solucion
+
+         for (int i = indice_central; i < centrales.size(); ++i) {
+
+             boolean max_superat = false;
+             int indice_clientes = 0;
+             for (int j = indice_clientes; j < clientes.size() && max_superat == false; ++j) {
+
+                 Cliente cl = clientes.get(j);
+                 if (cl.getContrato() == 1 && cl.getConsumo() < produccion_restante[i]) {
+                     assignacions.get(i).add(j);
+                     produccion_restante[i] -= clientes.get(j).getConsumo();
+                     ++indice_clientes;
+                 }
+                 else {
+                     max_superat = true;
+                     ++indice_central;
+                 }
+             }
+         }
      }
      
      
     public static void main(String[] args) throws Exception {
 
-        int[] numero_centrales = {10,20,15};
-        int numero_clientes = 3000;
+        Random myRandom = new Random(4388);
 
-        Random myRandom = new Random(numero_clientes);
+        int nc_tipoA = myRandom.nextInt(50);
+        int nc_tipoB = myRandom.nextInt(50);
+        int nc_tipoC = myRandom.nextInt(50);
+
+        int[] numero_centrales = {nc_tipoA,nc_tipoB,nc_tipoC};
+        int numero_clientes = myRandom.nextInt(5000);
+
+
         myRandom.nextInt(1000);
         double p1 = myRandom.nextInt(1000) / 1000.0;
         double p2 = myRandom.nextInt((int)((1-p1) * 1000)) / 1000.0;
@@ -70,6 +101,9 @@ public class Practica {
 
         assignacions = new ArrayList<>(centrales.size()+1);
         int n_centrales = numero_centrales[0] + numero_centrales[1] + numero_centrales[2];
+
+        distancias = Distance.getInstance(n_centrales, numero_clientes);
+        distancias.CalculaDistancies(centrales, clientes);
 
         InitialState(n_centrales, numero_clientes);
 
