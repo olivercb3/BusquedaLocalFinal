@@ -1,5 +1,7 @@
 package Greedy;
 
+import IA.Energia.VEnergia;
+
 import java.util.ArrayList;
 
 import static prac1_ia.Practica.centrales;
@@ -32,17 +34,27 @@ public class GreedyBoard {
         return assignacions;
     }
 
-    /*
     public boolean puede_añadir_cliente (int cliente, int central) {
 
-        return (produccion_restante[central] - clientes.get(cliente).getConsumo() > 0);
+        Double produccion = centrales.get(central).getProduccion();
+        ArrayList<Integer> Central = assignacions.get(central);
+        //provisional, se tiene que cambiar
+        int distancia = 1;
+
+        for (int i = 0; i < Central.size(); ++i)
+            produccion  -= clientes.get(i).getConsumo() / VEnergia.getPerdida(distancia);
+
+        Double consumo = clientes.get(cliente).getConsumo() / VEnergia.getPerdida(distancia);
+
+        if(produccion - consumo > 0 ) return true;
+        else return false;
+
     }
 
     public void añadir_cliente(int cliente, int central) {
 
-        Centrales_Assig[cliente] = central;
+        assignacions.get(central).add(cliente);
     }
-     */
 
     public boolean isGoal(){
 
