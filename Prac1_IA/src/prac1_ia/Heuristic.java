@@ -44,12 +44,11 @@ public class Heuristic implements HeuristicFunction {
                     Cliente cl = state.getClientes().get(index_client);
                     if (cl.getContrato() == 0) { //Garantizada
                         sum += cl.getConsumo()*VEnergia.getTarifaClienteGarantizada(cl.getTipo());
-                        sum_prov += cl.getConsumo();
                     }
                     else { //No garantizada
                         sum += cl.getConsumo()*VEnergia.getTarifaClienteNoGarantizada(cl.getTipo());
-                        sum_prov += cl.getConsumo();
                     }
+                   sum_prov += cl.getConsumo();
                 }
                 sum -= VEnergia.getCosteMarcha(tipo_central) + VEnergia.getCosteProduccionMW(tipo_central)*sum_prov;
             }
