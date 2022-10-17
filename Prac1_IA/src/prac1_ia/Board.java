@@ -130,8 +130,8 @@ public class Board {
             for (int j = 0; j < clientes.size() && max_superat == false; ++j) {
 
                 Cliente cl = clientes.get(j);
-                double[][] d = distancias.getDistancias();
-                double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(d[i][j]);
+                double dist = distancias.get_dist(i, j);
+                double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
                 if (cl.getContrato() == 1 && consumo < produccionRestante[i]) {
                     assignaciones.get(i).add(j);
                     produccionRestante[i] -= consumo;
@@ -149,8 +149,8 @@ public class Board {
         double restante = produccionRestante[central]; 
         int indice_cliente = assignaciones.get(assignaciones.size()-1).get(cliente); 
         Cliente cl = clientes.get(indice_cliente);
-        double[][] d = distancias.getDistancias();
-        double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(d[central][cliente]);
+        double dist = distancias.get_dist(central, cliente);
+        double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
         if (restante > consumo) { //comprobacion de que se pueda hacer el add
             //añado el nuevo cliente a la central en cuestión
             assignaciones.get(central).add(indice_cliente); 

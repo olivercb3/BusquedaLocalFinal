@@ -46,7 +46,6 @@ public class Practica {
         
         assignaciones = board.getAssignaciones();
         distancias = Distance.getInstance(centrales,clientes);
-        distancias.CalculaDistancias();
 
         for (int i = 0; i < assignaciones.size(); ++i) {
             System.out.print(i + ": ");
