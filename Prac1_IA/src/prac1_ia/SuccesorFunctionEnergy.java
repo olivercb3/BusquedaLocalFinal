@@ -110,7 +110,8 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                         int client = b.get(i).get(c);
                         Cliente cl = tablero.getClientes().get(client);
 
-                        if(i != tablero.getCentrales().size() && i != tablero.getCentrales().size()) {
+                        if(i != tablero.getCentrales().size() && j != tablero.getCentrales().size()) {
+
                             double dist = distancias.get_dist(j, client);
                             double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
                             double n_dist = distancias.get_dist(i, client);
@@ -127,14 +128,14 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                             }
                         }
 
-                        else if(i != tablero.getCentrales().size())  {
+                        else if(j != tablero.getCentrales().size())  {
                             double dist = distancias.get_dist(j, client);
                             double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
                             if (consumo < (tablero.getProduccionRestante())[j]) {
                                 Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
                                 copiaTablero.getAssignaciones().get(i).remove(c);
                                 copiaTablero.getAssignaciones().get(j).add(client);
-                                copiaTablero.getProduccionRestante()[i] += consumo;
+                                copiaTablero.getProduccionRestante()[j] += consumo;
                                 sucesoresCreados.add(new Successor(
                                         "Cliente " + c + " ha sido movido de la central " + i + " a la central " + j,
                                         copiaTablero));
@@ -147,7 +148,7 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                             Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
                             copiaTablero.getAssignaciones().get(i).remove(c);
                             copiaTablero.getAssignaciones().get(j).add(client);
-                            copiaTablero.getProduccionRestante()[j] -= n_consumo;
+                            copiaTablero.getProduccionRestante()[i] -= n_consumo;
                             sucesoresCreados.add(new Successor(
                                     "Cliente " + c + " ha sido movido de la central " + i + " a la central " + j,
                                     copiaTablero));
