@@ -109,7 +109,7 @@ public class Board {
     }
     
     //cambio de un cliente en activo por uno inactivo
-    public void swap(int central,int clienteNoAssignado,int clienteAssignado) {
+    public void swap(int central,int clienteAssignado,int clienteNoAssignado) {
         double restanteCentral1 = produccionRestante[central]; 
         Cliente c = clientes.get(clienteNoAssignado);
         if (restanteCentral1 > c.getConsumo()) {
