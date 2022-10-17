@@ -21,7 +21,7 @@ public class Heuristic implements HeuristicFunction {
     public double getHeuristicValue(Object state) {
         Heuristic.state = (Board) state;
         try {
-            return -heuristicValue();
+            return heuristicValue();
         }
         catch (Exception e) {
             return 0;
@@ -38,7 +38,6 @@ public class Heuristic implements HeuristicFunction {
                 sum -= VEnergia.getCosteParada(tipo_central);
             }
             else {
-                int sum_prov = 0;
                 for (int j = 0; j < numero_clients; ++j) {
                     int index_client = state.getAssignaciones().get(i).get(j);
                     Cliente cl = state.getClientes().get(index_client);
@@ -48,9 +47,8 @@ public class Heuristic implements HeuristicFunction {
                     else { //No garantizada
                         sum += cl.getConsumo()*VEnergia.getTarifaClienteNoGarantizada(cl.getTipo());
                     }
-                   sum_prov += cl.getConsumo();
                 }
-                sum -= VEnergia.getCosteMarcha(tipo_central) + VEnergia.getCosteProduccionMW(tipo_central)*sum_prov;
+                sum -= VEnergia.getCosteMarcha(tipo_central) + VEnergia.getCosteProduccionMW(tipo_central)*state.getCentrales().get(i).getProduccion();
             }
         } 
         return sum;

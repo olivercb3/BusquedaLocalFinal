@@ -7,16 +7,18 @@ package prac1_ia;
 import IA.Energia.Centrales;
 import IA.Energia.Clientes;
 
+//singleton class
 public class Distance {
-    public static Distance instance; 
-    public static double[][] distancias; 
+    public static Distance instance;
+    public static double[][] distancias;
     private static Centrales centrales; 
     private static Clientes clientes; 
     
-    public Distance(Centrales centrales,Clientes clientes) {
+    public Distance(Centrales centrales, Clientes clientes) {
         Distance.centrales = centrales; 
         Distance.clientes = clientes; 
         distancias = new double[centrales.size()][clientes.size()]; 
+        CalculaDistancias();
     }
     
     public double[][] getDistancias() {
@@ -25,12 +27,12 @@ public class Distance {
     
     public static Distance getInstance(Centrales centrales,Clientes clientes) {
         if (instance == null) {
-            instance = new Distance(centrales,clientes);
+            instance = new Distance(centrales, clientes);
         }
         return instance;
     }
     
-    public void CalculaDistancias() {
+    private void CalculaDistancias() {
         for (int i= 0; i < centrales.size();++i) {
          for (int j = 0; j < clientes.size();++j) {
              distancias[i][j] = distancia(clientes.get(i).getCoordX(),clientes.get(i).getCoordY(),
@@ -50,4 +52,9 @@ public class Distance {
         
         return Math.sqrt(result); 
     }
+    
+    public double get_dist(int central, int cliente) {
+        return distancias[central][cliente];
+    }
+ 
 }

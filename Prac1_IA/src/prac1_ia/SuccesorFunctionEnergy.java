@@ -9,16 +9,14 @@ import java.util.List;
 public class SuccesorFunctionEnergy implements SuccessorFunction {
     
     private static List<Successor> sucesoresCreados;
-    private static Board tablero; 
-    private static ArrayList<ArrayList<Integer>> assignaciones; 
-    private static ArrayList<Boolean> operators = new ArrayList<>();
+    private static Board tablero;
+    private static ArrayList<Boolean> operators;
 
 
     @Override
-    public List getSuccessors(Object o) {
+    public List getSuccessors(Object state) {
         sucesoresCreados = new ArrayList<>(); 
-        tablero = (Board) o;
-        assignaciones = tablero.getAssignaciones(); 
+        tablero = (Board) state;
         int i=0;
         if(operators.get(i++)) operatorAdd();
         if(operators.get(i++)) operatorSwap();
@@ -36,7 +34,7 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
 
     }
 
-    private void operatorAdd() {
+    /*private void operatorAdd() {
         int tamanoNoAssignados = assignaciones.get(assignaciones.size()-1).size(); 
         for (int i = 0; i < assignaciones.size();++i) {
             for (int j = 0; j < tamanoNoAssignados;++j) {
@@ -91,5 +89,35 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                 }
              }
          }
-      }
+      }*/
+    
+    
+    private void OperatorSwitch() {
+        ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
+        for (int i = 0; i < b.size(); ++i) {
+            for (int c = 0; c < b.get(i).size();++c) {
+                for (int j = 0; j < b.size(); ++i) {
+                    if (j == i);
+                    else {
+                        if ((tablero.getProduccionRestante())[j] < tablero.getClientes().get(c).getConsumo()) {
+                            Board copiaTablero = tablero; 
+                            copiaTablero.getAssignaciones().get(i).remove(c);
+                            copiaTablero.getAssignaciones().get(j).add(c);
+                            copiaTablero.getProduccionRestante()[i] -= tablero.getClientes().get(c).getConsumo();
+                            copiaTablero.getProduccionRestante()[j] += tablero.getClientes().get(c).getConsumo();
+                            sucesoresCreados.add(new Successor(
+                                    "Cliente " + c + " ha sido movido de la central " + i + " a la central " + j,
+                                    copiaTablero));
+                        }
+                    }
+                }
+             }
+         }
+    }
+    //tener en cuenta aun las distancias a la hora de calcular el consumo.
 }
+
+
+//3 operadores: switch, swap, rellenar central
+//proposta que els clients estiguessin ordenats dins de la matriu, no se encara exactament perque pero podria ser util a nivell de temps
+
