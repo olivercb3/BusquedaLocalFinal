@@ -42,38 +42,47 @@ public class Board {
     public Board(Centrales cen, Clientes cl) {
         centrales = cen;
         clientes = cl;
-        assignaciones = new ArrayList<ArrayList<Integer>>(cen.size()+1);
+        assignaciones = new ArrayList<ArrayList<Integer>>();
         produccionRestante = new double[cen.size()];
+        for (int i = 0; i < cen.size()+1; ++i) {
+            assignaciones.add(new ArrayList<Integer>());
+        }
         //Ponemos todos los clientes en la central vacia
-        for (int i = 0; i < clientes.size(); ++i) {
-            assignaciones.get(centrales.size()).add(i);
+        for (int i = 0; i < cl.size(); ++i) {
+            assignaciones.get(cen.size()).add(i);
         }
         InitialState(); 
     }
 
     private void InitialState_Greedy() {
 
-        for (int j = 0; j < clientes.size(); ++j) {
+        ArrayList<Integer> cental_vacia = assignaciones.get(centrales.size());
+        for (int j = 0; j < cental_vacia.size(); ++j) {
 
-            Cliente cl = clientes.get(j);
+            int client = cental_vacia.get(j);
+            Cliente cl = clientes.get(client);
             double[][] d = distancias.getDistancias();
             if (cl.getContrato() == 0) {
 
-                double [] centrales_cliente = getColumn(d,j, clientes.size());
+                double [] centrales_cliente = getColumn(d,client, clientes.size());
                 int min_distance = index_minimumArray(centrales_cliente);
-                double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(d[min_distance][j]);
+                double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(d[min_distance][client]);
 
                 if (consumo < produccionRestante[min_distance]) {
                     produccionRestante[min_distance] -= consumo;
-                    assignaciones.get(min_distance).add(j);
+                    assignaciones.get(min_distance).add(client);
+                    assignaciones.get(centrales.size()).remove(j);
+                    --j;
                 }
-                else {
+                else  {
                     boolean encontrado = false;
                     for (int i = 0; encontrado = true && i < centrales.size(); ++i) {
 
                         if(produccionRestante[i] < consumo) {
                             produccionRestante[i] -= consumo;
-                            assignaciones.get(i).add(j);
+                            assignaciones.get(i).add(client);
+                            assignaciones.get(centrales.size()).remove(j);
+                            --j;
                         }
                     }
                 }
@@ -87,14 +96,17 @@ public class Board {
             double media = meanArray(d[i]);
             for (int j = 0; j < clientes.size() && max_superat == false; ++j) {
 
-                Cliente cl = clientes.get(j);
-                double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(d[i][j]);
-                double dis = d[i][j];
+                int client = cental_vacia.get(j);
+                Cliente cl = clientes.get(client);
+                double dis = d[i][client];
+                double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dis);
                 if (cl.getContrato() == 1 && consumo < produccionRestante[i] && dis < media) {
-                    assignaciones.get(i).add(j);
+                    assignaciones.get(i).add(client);
                     produccionRestante[i] -= consumo;
+                    assignaciones.get(centrales.size()).remove(j);
+                    --j;
                 }
-                else
+                else if(cl.getContrato() == 1)
                     max_superat = true;
             }
         }
@@ -103,20 +115,27 @@ public class Board {
     private void InitialState() {
 
         int indice_central = 0;
+        ArrayList<Integer> cental_vacia = assignaciones.get(centrales.size());
         for (int i = 0; i < centrales.size(); ++i) {
 
             boolean max_superat = false;
             produccionRestante[i] = centrales.get(i).getProduccion();
-            for (int j = 0; j < clientes.size() && max_superat == false; ++j) {
+            for (int j = 0; j < cental_vacia.size() && max_superat == false; ++j) {
 
-                if (clientes.get(j).getConsumo() < produccionRestante[i]) {
-                    Cliente cl = clientes.get(j);
-                    double[][] d = distancias.getDistancias();
-                    double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(d[i][j]);
+                int client = cental_vacia.get(j);
+                Cliente cl = clientes.get(client);
+                double dist = distancias.get_dist(i, client);
+                double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
+
+                if (consumo < produccionRestante[i]) {
+
                     if (cl.getContrato() == 0 && consumo < produccionRestante[i]) {
-                        assignaciones.get(i).add(j);
+                        assignaciones.get(i).add(client);
+                        assignaciones.get(centrales.size()).remove(j);
+                        --j;
                         produccionRestante[i] -= consumo;
-                    } else {
+                    }
+                    else if (cl.getContrato() == 0) {
                         max_superat = true;
                         ++indice_central;
                     }
@@ -127,16 +146,19 @@ public class Board {
         for (int i = indice_central; i < centrales.size(); ++i) {
 
             boolean max_superat = false;
-            for (int j = 0; j < clientes.size() && max_superat == false; ++j) {
+            for (int j = 0; j < cental_vacia.size() && max_superat == false; ++j) {
 
-                Cliente cl = clientes.get(j);
-                double dist = distancias.get_dist(i, j);
+                int client = cental_vacia.get(j);
+                Cliente cl = clientes.get(client);
+                double dist = distancias.get_dist(i, client);
                 double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
                 if (cl.getContrato() == 1 && consumo < produccionRestante[i]) {
-                    assignaciones.get(i).add(j);
+                    assignaciones.get(i).add(client);
+                    cental_vacia.remove(j);
+                    --j;
                     produccionRestante[i] -= consumo;
                 }
-                else {
+                else if(cl.getContrato() == 1){
                     max_superat = true;
                     ++indice_central;
                 }

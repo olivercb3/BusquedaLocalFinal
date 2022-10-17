@@ -7,6 +7,7 @@ import aima.search.framework.GoalTest;
 
 public class GoalTestEnergy implements GoalTest {
 
+    @Override
     public boolean isGoalState(Object aState) {
         return(false);
     }

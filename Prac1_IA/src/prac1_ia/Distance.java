@@ -33,10 +33,11 @@ public class Distance {
     }
     
     private void CalculaDistancias() {
-        for (int i= 0; i < centrales.size();++i) {
-         for (int j = 0; j < clientes.size();++j) {
-             distancias[i][j] = distancia(clientes.get(i).getCoordX(),clientes.get(i).getCoordY(),
-                     centrales.get(j).getCoordX(),centrales.get(j).getCoordY());
+        for (int i= 0; i < centrales.size()-1;++i) {
+         for (int j = 0; j < clientes.size()-1;++j) {
+             distancias[i][j] = distancia(clientes.get(j).getCoordX(),clientes.get(j).getCoordY(),
+                     centrales.get(i).getCoordX(),centrales.get(i).getCoordY());
+             //distancias[i][j] = distancia(34,45,67,85);
             }
          }
     }

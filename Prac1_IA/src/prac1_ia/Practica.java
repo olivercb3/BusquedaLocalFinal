@@ -3,9 +3,7 @@ import IA.Energia.*;
 import java.util.*;
 
 
-import aima.search.framework.Problem;
-import aima.search.framework.Search;
-import aima.search.framework.SearchAgent;
+import aima.search.framework.*;
 import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
 
@@ -28,7 +26,7 @@ public class Practica {
         int nc_tipoC = myRandom.nextInt(50);
 
         int[] numero_centrales = {nc_tipoA,nc_tipoB,nc_tipoC};
-        int numero_clientes = myRandom.nextInt(5000);
+        int numero_clientes = myRandom.nextInt(50);
 
 
         myRandom.nextInt(1000);
@@ -42,10 +40,20 @@ public class Practica {
         centrales = new Centrales(numero_centrales, 1);
         clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200);
 
+        distancias = Distance.getInstance(centrales,clientes);
+
         board = new Board(centrales,clientes);
         
         assignaciones = board.getAssignaciones();
-        distancias = Distance.getInstance(centrales,clientes);
+        Heuristic H = new Heuristic();
+        SuccessorFunction S = new SuccesorFunctionEnergy();
+
+        Problem problem =  new Problem(board,new SuccesorFunctionEnergy(), new GoalTestEnergy(),new Heuristic());
+        Search search =  new HillClimbingSearch();
+        SearchAgent agent = new SearchAgent(problem,search);
+        Board goalState = (Board) search.getGoalState();
+
+        assignaciones = goalState.getAssignaciones();
 
         for (int i = 0; i < assignaciones.size(); ++i) {
             System.out.print(i + ": ");
@@ -105,6 +113,6 @@ public class Practica {
     }
     
     public static void runSimulation() {
-        //
+
     }
 }

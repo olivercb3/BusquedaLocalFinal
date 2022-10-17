@@ -18,10 +18,13 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         sucesoresCreados = new ArrayList<>(); 
         tablero = (Board) state;
         int i=0;
+        /*
         if(operators.get(i++)) operatorAdd();
         if(operators.get(i++)) operatorSwap();
         if(operators.get(i++)) operatorInterchange();
         if(operators.get(i)) operatorRemove();
+         */
+        OperatorSwitch();
         return sucesoresCreados; 
     }
     
