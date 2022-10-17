@@ -106,20 +106,47 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                 for (int j = 0; j < b.size(); ++j) {
                     if (j == i);
                     else {
+
                         int client = b.get(i).get(c);
                         Cliente cl = tablero.getClientes().get(client);
 
-                        double dist = distancias.get_dist(client, j);
-                        double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
+                        if(i != tablero.getCentrales().size() && i != tablero.getCentrales().size()) {
+                            double dist = distancias.get_dist(j, client);
+                            double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
+                            double n_dist = distancias.get_dist(i, client);
+                            double n_consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(n_dist);
+                            if (consumo < (tablero.getProduccionRestante())[j]) {
+                                Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
+                                copiaTablero.getAssignaciones().get(i).remove(c);
+                                copiaTablero.getAssignaciones().get(j).add(client);
+                                copiaTablero.getProduccionRestante()[i] += consumo;
+                                copiaTablero.getProduccionRestante()[j] -= n_consumo;
+                                sucesoresCreados.add(new Successor(
+                                        "Cliente " + c + " ha sido movido de la central " + i + " a la central " + j,
+                                        copiaTablero));
+                            }
+                        }
 
-                        double n_dist = distancias.get_dist(client, i);
-                        double n_consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(n_dist);
+                        else if(i != tablero.getCentrales().size())  {
+                            double dist = distancias.get_dist(j, client);
+                            double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
+                            if (consumo < (tablero.getProduccionRestante())[j]) {
+                                Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
+                                copiaTablero.getAssignaciones().get(i).remove(c);
+                                copiaTablero.getAssignaciones().get(j).add(client);
+                                copiaTablero.getProduccionRestante()[i] += consumo;
+                                sucesoresCreados.add(new Successor(
+                                        "Cliente " + c + " ha sido movido de la central " + i + " a la central " + j,
+                                        copiaTablero));
+                            }
+                        }
+                        else {
 
-                        if (consumo < (tablero.getProduccionRestante())[j]) {
+                            double n_dist = distancias.get_dist(i, client);
+                            double n_consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(n_dist);
                             Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
                             copiaTablero.getAssignaciones().get(i).remove(c);
                             copiaTablero.getAssignaciones().get(j).add(client);
-                            copiaTablero.getProduccionRestante()[i] += consumo;
                             copiaTablero.getProduccionRestante()[j] -= n_consumo;
                             sucesoresCreados.add(new Successor(
                                     "Cliente " + c + " ha sido movido de la central " + i + " a la central " + j,
