@@ -57,7 +57,7 @@ public class Board {
 
                 if (cl.getContrato() == 0) {
 
-                    double [] centrales_cliente = getColumn(d,j);
+                    double [] centrales_cliente = getColumn(d,j, clientes.size());
                     int min_distance = index_minimumArray(centrales_cliente);
                     double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(d[min_distance][j]);
 
@@ -257,9 +257,9 @@ public class Board {
         return index;
     }
 
-    public static double[] getColumn(double[][] array, int index){
-        double[] column = new double[array.length];
-        for(int i=0; i < column.length; i++){
+    public static double[] getColumn(double[][] array, int index, int size_column){
+        double[] column = new double[size_column];
+        for(int i=0; i < size_column; i++){
             column[i] = array[i][index];
         }
         return column;
