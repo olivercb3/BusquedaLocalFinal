@@ -39,7 +39,7 @@ public class Distance {
          }
     }
     
-    public double distancia(int x1,int y1, int x2,int y2) {
+    private double distancia(int x1,int y1, int x2,int y2) {
         double primera_resta = x2-x1; 
         double segunda_resta = y2-y1;
         
