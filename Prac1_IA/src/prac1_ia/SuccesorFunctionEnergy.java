@@ -1,10 +1,14 @@
 package prac1_ia;
 
+import IA.Energia.Cliente;
+import IA.Energia.VEnergia;
 import aima.search.framework.Successor;
 import aima.search.framework.SuccessorFunction;
 import java.util.ArrayList;
 
 import java.util.List;
+
+import static prac1_ia.Practica.distancias;
 
 public class SuccesorFunctionEnergy implements SuccessorFunction {
     
@@ -99,15 +103,24 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
         for (int i = 0; i < b.size(); ++i) {
             for (int c = 0; c < b.get(i).size();++c) {
-                for (int j = 0; j < b.size(); ++i) {
+                for (int j = 0; j < b.size(); ++j) {
                     if (j == i);
                     else {
-                        if ((tablero.getProduccionRestante())[j] < tablero.getClientes().get(c).getConsumo()) {
-                            Board copiaTablero = tablero; 
+                        int client = b.get(i).get(c);
+                        Cliente cl = tablero.getClientes().get(client);
+
+                        double dist = distancias.get_dist(client, j);
+                        double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
+
+                        double n_dist = distancias.get_dist(client, i);
+                        double n_consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(n_dist);
+
+                        if (consumo < (tablero.getProduccionRestante())[j]) {
+                            Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
                             copiaTablero.getAssignaciones().get(i).remove(c);
-                            copiaTablero.getAssignaciones().get(j).add(c);
-                            copiaTablero.getProduccionRestante()[i] -= tablero.getClientes().get(c).getConsumo();
-                            copiaTablero.getProduccionRestante()[j] += tablero.getClientes().get(c).getConsumo();
+                            copiaTablero.getAssignaciones().get(j).add(client);
+                            copiaTablero.getProduccionRestante()[i] += consumo;
+                            copiaTablero.getProduccionRestante()[j] -= n_consumo;
                             sucesoresCreados.add(new Successor(
                                     "Cliente " + c + " ha sido movido de la central " + i + " a la central " + j,
                                     copiaTablero));

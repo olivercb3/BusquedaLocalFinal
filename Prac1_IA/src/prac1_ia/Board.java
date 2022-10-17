@@ -54,6 +54,22 @@ public class Board {
         InitialState(); 
     }
 
+    //constructor_copia
+    public Board(Centrales cen, Clientes cl, ArrayList<ArrayList<Integer>> a, double [] p) {
+        centrales = cen;
+        clientes = cl;
+        assignaciones = new ArrayList<ArrayList<Integer>>();
+        produccionRestante = new double[p.length];
+        for (int i = 0; i < a.size(); ++i) {
+            assignaciones.add(new ArrayList<Integer>());
+            for (int j = 0; j < a.get(i).size();++j)
+                assignaciones.get(i).add(a.get(i).get(j));
+        }
+        //Ponemos todos los clientes en la central vacia
+        for (int i = 0; i < p.length; ++i)
+            produccionRestante[i] = p[i];
+    }
+
     private void InitialState_Greedy() {
 
         ArrayList<Integer> cental_vacia = assignaciones.get(centrales.size());
