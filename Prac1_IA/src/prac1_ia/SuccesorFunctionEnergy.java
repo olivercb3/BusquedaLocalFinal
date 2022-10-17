@@ -143,15 +143,17 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                         }
                         else {
 
-                            double n_dist = distancias.get_dist(i, client);
-                            double n_consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(n_dist);
-                            Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
-                            copiaTablero.getAssignaciones().get(i).remove(c);
-                            copiaTablero.getAssignaciones().get(j).add(client);
-                            copiaTablero.getProduccionRestante()[i] -= n_consumo;
-                            sucesoresCreados.add(new Successor(
-                                    "Cliente " + c + " ha sido movido de la central " + i + " a la central " + j,
-                                    copiaTablero));
+                            if (cl.getContrato() == 1) {
+                                double n_dist = distancias.get_dist(i, client);
+                                double n_consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(n_dist);
+                                Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
+                                copiaTablero.getAssignaciones().get(i).remove(c);
+                                copiaTablero.getAssignaciones().get(j).add(client);
+                                copiaTablero.getProduccionRestante()[i] -= n_consumo;
+                                sucesoresCreados.add(new Successor(
+                                        "Cliente " + c + " ha sido movido de la central " + i + " a la central " + j,
+                                        copiaTablero));
+                            }
                         }
                     }
                 }
