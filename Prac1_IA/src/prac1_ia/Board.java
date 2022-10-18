@@ -157,6 +157,7 @@ public class Board {
                     }
                 }
             }
+            
         }
         //En este punto es solucion
         for (int i = indice_central; i < centrales.size(); ++i) {
@@ -180,6 +181,7 @@ public class Board {
                 }
             }
         }
+        
     }
     
     //compruebo que el consumo no se pase del tope

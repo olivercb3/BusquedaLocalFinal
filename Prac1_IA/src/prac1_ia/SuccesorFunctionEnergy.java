@@ -21,7 +21,7 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
     public List getSuccessors(Object state) {
         sucesoresCreados = new ArrayList<>(); 
         tablero = (Board) state;
-        int i=0;
+        //int i=0;
         /*
         if(operators.get(i++)) operatorAdd();
         if(operators.get(i++)) operatorSwap();
