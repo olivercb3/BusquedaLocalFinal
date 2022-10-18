@@ -181,7 +181,6 @@ public class Board {
                 }
             }
         }
-        
     }
     
     void afegeix(int central, int no_assignado) {
@@ -195,8 +194,10 @@ public class Board {
     //en el remove creo que no hay ninguna condicion concreta, confirmadmelo
     //haze falta comprobar que no vayas a quitar un prioritario, porque dejaria de ser solucion
     public void remove(int central,int cliente) {
+        int indice_cliente = assignaciones.get(central).get(cliente); 
+        produccionRestante[central] += clientes.get(indice_cliente).getConsumo(); 
         assignaciones.get(central).remove(cliente); 
-        assignaciones.get(assignaciones.size()-1).add(cliente); 
+        assignaciones.get(assignaciones.size()-1).add(indice_cliente); 
     }
     
     //es el cambio de dos clientes en activo

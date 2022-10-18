@@ -36,6 +36,8 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         operatorSwap();
         //OperatorSwitch();
         return sucesoresCreados; 
+        
+        
     }
     
     public void setOperators(Boolean opAdd, Boolean opSwap, Boolean opRemove, Boolean opInterchange){
