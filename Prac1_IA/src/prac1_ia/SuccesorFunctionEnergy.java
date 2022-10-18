@@ -15,12 +15,14 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
     private static List<Successor> sucesoresCreados;
     private static Board tablero;
     private static ArrayList<Boolean> operators;
+    ArrayList<ArrayList<Integer>> assignaciones; 
 
 
     @Override
     public List getSuccessors(Object state) {
         sucesoresCreados = new ArrayList<>(); 
         tablero = (Board) state;
+        assignaciones = tablero.getAssignaciones();
         //int i=0;
         /*
         if(operators.get(i++)) operatorAdd();
@@ -28,7 +30,11 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         if(operators.get(i++)) operatorInterchange();
         if(operators.get(i)) operatorRemove();
          */
-        OperatorSwitch();
+        //operatorRemove();
+        //operatorAdd();
+        //operatorInterchange();
+        operatorSwap();
+        //OperatorSwitch();
         return sucesoresCreados; 
     }
     
@@ -41,20 +47,26 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
 
     }
 
-    /*private void operatorAdd() {
-        int tamanoNoAssignados = assignaciones.get(assignaciones.size()-1).size(); 
-        for (int i = 0; i < assignaciones.size();++i) {
-            for (int j = 0; j < tamanoNoAssignados;++j) {
-                Board copiaTablero = tablero; 
-                copiaTablero.add(i,j);
+    private void operatorAdd() { //funciona
+        for (int i = 0; i < assignaciones.size()-1;++i) {
+            for (int j = 0;j < assignaciones.get(assignaciones.size()-1).size();++j) { //recorre los no asignados
+                int no_assignado = assignaciones.get(assignaciones.size()-1).get(j); 
+                Board copia = tablero; 
+                double prod_res = copia.getProduccionRestante()[i];
+                double consumo_cliente = copia.getClientes().get(no_assignado).getConsumo();
+                if (prod_res > consumo_cliente) {
+                    copia.getProduccionRestante()[i] -= consumo_cliente;
+                    copia.afegeix(i, no_assignado);
+                    copia.esborra(assignaciones.size()-1, j);
+                }
                 sucesoresCreados.add(new Successor(
-                                "Cliente añadido " + j + "en la central" + i,
-                                copiaTablero));
+                                "HOLA",
+                                copia));
             }
         }
     }
     
-    private void operatorSwap() {
+    private void operatorSwap() { 
         for (int i = 0; i < assignaciones.size();++i) {
             for (int j = 0; j < assignaciones.get(i).size();++j) {
                 for (int k = 0; k < assignaciones.get(assignaciones.size()-1).size();++k) {
@@ -69,11 +81,14 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         }
     }
     
-    private void operatorRemove() {
+    private void operatorRemove() { //funciona
         for (int i = 0; i < assignaciones.size();++i) {
             for (int j = 0; j < assignaciones.get(i).size();++j) {
                 Board copiaTablero = tablero; 
-                copiaTablero.remove(i,j);
+                int indice_cliente = assignaciones.get(i).get(j); 
+                if (copiaTablero.getClientes().get(indice_cliente).getContrato() == 0) {
+                    copiaTablero.remove(i,j);
+                }
                 sucesoresCreados.add(new Successor(
                                 "Cliente borrado " + j + "en la central" + i,
                                 copiaTablero));
@@ -81,10 +96,10 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         }
     }
     
-    private void operatorInterchange() {
-        for (int i = 0; i < assignaciones.size(); ++i) {
+    private void operatorInterchange() { //funciona
+        for (int i = 0; i < assignaciones.size()-1; ++i) {
             for (int c = 0; c < assignaciones.get(i).size();++c) {
-                for (int j = i+1; j < assignaciones.size(); ++i) {
+                for (int j = i+1; j < assignaciones.size()-1; ++j) {
                      for (int k = 0; k < assignaciones.get(j).size();++k) {
                         Board copiaTablero = tablero; 
                         copiaTablero.interchange(i,j,c,k);
@@ -96,10 +111,10 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                 }
              }
          }
-      }*/
+      }
     
     
-    private void OperatorSwitch() {
+    private void OperatorSwitch() { //funciona
         ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
         for (int i = 0; i < b.size(); ++i) {
             for (int c = 0; c < b.get(i).size();++c) {

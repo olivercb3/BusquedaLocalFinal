@@ -43,8 +43,23 @@ public class Practica {
         distancias = Distance.getInstance(centrales,clientes);
 
         board = new Board(centrales,clientes);
+        double[] prod = board.getProduccionRestante(); 
+        for (int j = 0; j < prod.length; ++j) {
+                System.out.print(prod[j] + " ");
+            }
         
         assignaciones = board.getAssignaciones();
+                
+        for (int i = 0;i < assignaciones.size(); ++i) {
+        System.out.print(i + ": "); 
+            for (int j = 0;j < assignaciones.get(i).size();++j) {
+                System.out.print(assignaciones.get(i).get(j) + " "); 
+            }
+        System.out.println(i); 
+        }
+        
+        System.out.println(); 
+        
         Heuristic H = new Heuristic();
         SuccessorFunction S = new SuccesorFunctionEnergy();
 
@@ -52,26 +67,16 @@ public class Practica {
         Search search =  new HillClimbingSearch();
         SearchAgent agent = new SearchAgent(problem,search);
         Board goalState = (Board) search.getGoalState();
-
-        assignaciones = goalState.getAssignaciones();
         
+        ArrayList<ArrayList<Integer>> assignaciones = goalState.getAssignaciones(); 
         
-        
-        for (int i = 0; i < assignaciones.size(); ++i) {
-            System.out.print(i + ": ");
-            for (int j = 0; j < assignaciones.get(i).size(); ++j) {
-                System.out.print(assignaciones.get(i).get(j) + " ");
+        for (int i = 0;i < assignaciones.size(); ++i) {
+        System.out.print(i + ": "); 
+            for (int j = 0;j < assignaciones.get(i).size();++j) {
+                System.out.print(assignaciones.get(i).get(j) + " "); 
             }
+        System.out.println(i); 
         }
-        System.out.println();
-        
-        for (int i = 0; i < goalState.getProduccionRestante().length; ++i) {
-            System.out.print(i + " " + goalState.getProduccionRestante()[i] + " " + centrales.get(i).getProduccion() + " ");
-            
-        }
-        System.out.println();
-        System.out.print(H.getHeuristicValue(goalState));
-        
     }
     
     private static void TSPHillClimbingSearch(Board TSPB) {

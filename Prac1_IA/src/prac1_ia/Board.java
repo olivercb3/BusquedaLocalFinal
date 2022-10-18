@@ -184,19 +184,12 @@ public class Board {
         
     }
     
-    //compruebo que el consumo no se pase del tope
-    public void add(int central,int cliente) {
-        double restante = produccionRestante[central]; 
-        int indice_cliente = assignaciones.get(assignaciones.size()-1).get(cliente); 
-        Cliente cl = clientes.get(indice_cliente);
-        double dist = distancias.get_dist(central, cliente);
-        double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
-        if (restante > consumo) { //comprobacion de que se pueda hacer el add
-            //añado el nuevo cliente a la central en cuestión
-            assignaciones.get(central).add(indice_cliente); 
-            //lo borro de la central nula
-            assignaciones.get(assignaciones.size()-1).remove(cliente); 
-        }
+    void afegeix(int central, int no_assignado) {
+        assignaciones.get(central).add(no_assignado); 
+    }
+
+    void esborra(int central, int no_assignado) {
+        assignaciones.get(central).remove(no_assignado);
     }
     
     //en el remove creo que no hay ninguna condicion concreta, confirmadmelo
@@ -212,10 +205,11 @@ public class Board {
     public void interchange(int central1,int central2,int cliente1,int cliente2) {
         double restanteCentral1 = produccionRestante[central1]; 
         double restanteCentral2 = produccionRestante[central2]; 
+        //System.out.println(restanteCentral1 + " " + restanteCentral2); 
         Cliente c1 = clientes.get(cliente1);
         Cliente c2 = clientes.get(cliente2);
 
-        if (restanteCentral1 > c1.getConsumo() && restanteCentral2 > c2.getConsumo()) {
+        if (restanteCentral1+c1.getConsumo() > c2.getConsumo() && restanteCentral2+c2.getConsumo() > c1.getConsumo()) {
             //PRIMER CLIENTE-CENTRAL
             //añado el nuevo cliente a la central en cuestión
             assignaciones.get(central1).add(cliente2); 
@@ -234,18 +228,27 @@ public class Board {
     //No has controlado la central vacia, esta no tiene produccion restante i no se puede assignar un
     //prioritario a ella
     public void swap(int central,int clienteAssignado,int clienteNoAssignado) {
-        double restanteCentral1 = produccionRestante[central]; 
         Cliente cl = clientes.get(clienteNoAssignado);
-        double[][] d = distancias.getDistancias();
-        double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(d[central][clienteNoAssignado]);
-        if (restanteCentral1 > consumo) {
+        Cliente cl2 = clientes.get(clienteAssignado);
+        //entiendo que el 1 es tarifa obligatoria
+        if (cl2.getTipo() == 0) {
+            int indice_assignado = assignaciones.get(central).get(clienteAssignado); 
+            int indice_no_assignado = assignaciones.get(assignaciones.size()-1).get(clienteNoAssignado); 
+            double restanteCentral1 = produccionRestante[central]; 
+            double[][] d = distancias.getDistancias();
+            double consumo1 = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(d[central][clienteNoAssignado]);
+            double consumo2 = cl2.getConsumo() + cl2.getConsumo() * VEnergia.getPerdida(d[central][clienteAssignado]);
+            if (restanteCentral1+consumo2 > consumo1) {
+            produccionRestante[central] -= consumo2; 
+            produccionRestante[central] += consumo1; 
             //añado el nuevo cliente a la central en cuestión
-            assignaciones.get(central).add(clienteNoAssignado); 
-            //lo borro de la central
-            assignaciones.get(assignaciones.size()-1).remove(clienteNoAssignado); 
-            
-            assignaciones.get(assignaciones.size()-1).add(clienteAssignado); 
             assignaciones.get(central).remove(clienteAssignado); 
+            assignaciones.get(central).add(indice_no_assignado); 
+            //lo borro de la central
+            
+            assignaciones.get(assignaciones.size()-1).remove(clienteNoAssignado); 
+            assignaciones.get(assignaciones.size()-1).add(indice_assignado); 
+            }
         }
     }
 
