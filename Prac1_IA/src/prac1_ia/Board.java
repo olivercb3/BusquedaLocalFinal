@@ -239,8 +239,8 @@ public class Board {
             double consumo1 = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(d[central][clienteNoAssignado]);
             double consumo2 = cl2.getConsumo() + cl2.getConsumo() * VEnergia.getPerdida(d[central][clienteAssignado]);
             if (restanteCentral1+consumo2 > consumo1) {
-            produccionRestante[central] -= consumo2; 
-            produccionRestante[central] += consumo1; 
+            produccionRestante[central] += consumo2; 
+            produccionRestante[central] -= consumo1; 
             //añado el nuevo cliente a la central en cuestión
             assignaciones.get(central).remove(clienteAssignado); 
             assignaciones.get(central).add(indice_no_assignado); 

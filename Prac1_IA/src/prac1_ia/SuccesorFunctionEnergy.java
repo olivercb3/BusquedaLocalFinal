@@ -66,8 +66,8 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         }
     }
     
-    private void operatorSwap() { 
-        for (int i = 0; i < assignaciones.size();++i) {
+    private void operatorSwap() { //funciona
+        for (int i = 0; i < assignaciones.size()-1;++i) {
             for (int j = 0; j < assignaciones.get(i).size();++j) {
                 for (int k = 0; k < assignaciones.get(assignaciones.size()-1).size();++k) {
                     Board copiaTablero = tablero; 
