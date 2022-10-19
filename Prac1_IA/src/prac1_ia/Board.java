@@ -51,7 +51,7 @@ public class Board {
         for (int i = 0; i < cl.size(); ++i) {
             assignaciones.get(cen.size()).add(i);
         }
-        InitialState();
+        InitialState_Greedy();
     }
 
     //constructor_copia
@@ -109,6 +109,7 @@ public class Board {
             }
         }
         //En este punto es solucion
+        comprobar_solucion();
         for (int i = 0; i < centrales.size(); ++i) {
 
             boolean max_superat = false;
@@ -164,6 +165,7 @@ public class Board {
             
         }
         //En este punto es solucion
+        comprobar_solucion();
         for (int i = indice_central; i < centrales.size(); ++i) {
 
             boolean max_superat = false;
@@ -301,5 +303,21 @@ public class Board {
             column[i] = array[i][index];
         }
         return column;
+    }
+
+    private void comprobar_solucion() {
+
+        ArrayList<Integer> cental_vacia = assignaciones.get(centrales.size());
+        boolean solucion = true;
+        for (int j = 0;solucion && j < cental_vacia.size(); ++j) {
+
+            int client = cental_vacia.get(j);
+            Cliente cl = clientes.get(client);
+            if(cl.getContrato() == 0){
+                solucion = false;
+                System.out.println("NO ES SOLUCION");
+                System.out.println();
+            }
+        }
     }
 }

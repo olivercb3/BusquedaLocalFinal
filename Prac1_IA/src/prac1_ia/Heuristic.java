@@ -56,8 +56,8 @@ public class Heuristic implements HeuristicFunction {
                 sum -= VEnergia.getCosteMarcha(tipo_central) + VEnergia.getCosteProduccionMW(tipo_central)*state.getCentrales().get(i).getProduccion();
             }
         } 
-        System.out.print(sum);
-        System.out.println();
+        //System.out.print(sum);
+        //System.out.println();
         return sum;
     }
     
