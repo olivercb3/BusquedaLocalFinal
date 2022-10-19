@@ -10,14 +10,15 @@ import IA.Energia.Clientes;
 //singleton class
 public class Distance {
     public static Distance instance;
-    public static double[][] distancias;
+    private static double[][] distancias;
     private static Centrales centrales; 
     private static Clientes clientes; 
     
     public Distance(Centrales centrales, Clientes clientes) {
-        Distance.centrales = centrales; 
-        Distance.clientes = clientes; 
-        distancias = new double[centrales.size()][clientes.size()]; 
+        //System.out.print("ieeeeeeeeeeeeeeee");
+        Distance.centrales = centrales;
+        Distance.clientes = clientes;
+        distancias = new double[centrales.size()][clientes.size()];
         CalculaDistancias();
     }
     
@@ -32,16 +33,14 @@ public class Distance {
         return instance;
     }
     
-    private void CalculaDistancias() {
+    public void CalculaDistancias() {
         //System.out.print("ieeeeeeeeeeeeeeee");
-        for (int i= 0; i < centrales.size()-1;++i) {
-         for (int j = 0; j < clientes.size()-1;++j) {
+        for (int i= 0; i < centrales.size();++i) {
+         for (int j = 0; j < clientes.size();++j) {
              distancias[i][j] = distancia(clientes.get(j).getCoordX(),clientes.get(j).getCoordY(),
                      centrales.get(i).getCoordX(),centrales.get(i).getCoordY());
-             //distancias[i][j] = distancia(34,45,67,85);
             }
          }
-        //System.out.print(clientes.get(10));
     }
     
     private double distancia(int x1,int y1, int x2,int y2) {
@@ -51,14 +50,25 @@ public class Distance {
         double primer_elemento = Math.pow(primera_resta,2.0); 
         double segundo_elemento = Math.pow(segunda_resta,2.0); 
         
-        double result = primer_elemento + segundo_elemento; 
-        
-        
+        double result = primer_elemento + segundo_elemento;
+
         return Math.sqrt(result); 
     }
     
     public double get_dist(int central, int cliente) {
         return distancias[central][cliente];
+    }
+
+    //Funcion Auxiliar
+
+    public void Imprimir_matriz() {
+
+        for(int i = 0; i < distancias.length; ++i) {
+            System.out.print(i + ": ");
+            for (int j = 0; j < distancias[0].length; ++j)
+                System.out.print(distancias[i][j] + " ");
+            System.out.println();
+        }
     }
  
 }

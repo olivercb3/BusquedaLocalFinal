@@ -41,6 +41,17 @@ public class Practica {
         clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200);
 
         distancias = Distance.getInstance(centrales,clientes);
+        distancias.CalculaDistancias();
+        double[][] d = distancias.getDistancias();
+
+        for(int i = 0; i < d.length; ++i) {
+            System.out.print(i + ": ");
+            for (int j = 0; j < d[0].length; ++j)
+                System.out.print(d[i][j] + " ");
+            System.out.println();
+        }
+
+
 
         board = new Board(centrales,clientes);
         double[] prod = board.getProduccionRestante(); 
@@ -59,8 +70,8 @@ public class Practica {
         }
         
         System.out.println(); */
-        double[][] d = distancias.getDistancias();
-        System.out.print(d[39][367]);
+        //double[][] d = distancias.getDistancias();
+        //System.out.print(d[39][367]);
         Heuristic H = new Heuristic();
         SuccessorFunction S = new SuccesorFunctionEnergy();
 

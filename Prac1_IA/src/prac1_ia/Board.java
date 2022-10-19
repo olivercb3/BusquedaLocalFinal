@@ -65,7 +65,7 @@ public class Board {
             for (int j = 0; j < a.get(i).size();++j)
                 assignaciones.get(i).add(a.get(i).get(j));
         }
-        //Ponemos todos los clientes en la central vacia
+
         for (int i = 0; i < p.length; ++i)
             produccionRestante[i] = p[i];
     }
