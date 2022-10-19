@@ -44,7 +44,7 @@ public class Practica {
 
         board = new Board(centrales,clientes);
         double[] prod = board.getProduccionRestante(); 
-        for (int j = 0; j < prod.length; ++j) {
+        /*for (int j = 0; j < prod.length; ++j) {
                 System.out.print(prod[j] + " ");
             }
         
@@ -58,7 +58,7 @@ public class Practica {
         System.out.println(i); 
         }
         
-        System.out.println(); 
+        System.out.println(); */
         
         Heuristic H = new Heuristic();
         SuccessorFunction S = new SuccesorFunctionEnergy();
@@ -70,12 +70,16 @@ public class Practica {
         
         ArrayList<ArrayList<Integer>> assignaciones = goalState.getAssignaciones(); 
         
-        for (int i = 0;i < assignaciones.size(); ++i) {
+        /*for (int i = 0;i < assignaciones.size(); ++i) {
         System.out.print(i + ": "); 
             for (int j = 0;j < assignaciones.get(i).size();++j) {
                 System.out.print(assignaciones.get(i).get(j) + " "); 
             }
         System.out.println(i); 
+        }*/
+        for (int i = 0; i < goalState.getProduccionRestante().length; ++i) {
+            System.out.print(i + ": " + goalState.getProduccionRestante()[i] + " " + goalState.getCentrales().get(i).getProduccion());
+             System.out.println();
         }
     }
     
