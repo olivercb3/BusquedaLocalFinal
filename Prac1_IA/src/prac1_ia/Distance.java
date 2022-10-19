@@ -33,6 +33,7 @@ public class Distance {
     }
     
     private void CalculaDistancias() {
+        //System.out.print("ieeeeeeeeeeeeeeee");
         for (int i= 0; i < centrales.size()-1;++i) {
          for (int j = 0; j < clientes.size()-1;++j) {
              distancias[i][j] = distancia(clientes.get(j).getCoordX(),clientes.get(j).getCoordY(),
@@ -40,6 +41,7 @@ public class Distance {
              //distancias[i][j] = distancia(34,45,67,85);
             }
          }
+        //System.out.print(clientes.get(10));
     }
     
     private double distancia(int x1,int y1, int x2,int y2) {
@@ -50,6 +52,7 @@ public class Distance {
         double segundo_elemento = Math.pow(segunda_resta,2.0); 
         
         double result = primer_elemento + segundo_elemento; 
+        
         
         return Math.sqrt(result); 
     }

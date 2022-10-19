@@ -59,7 +59,8 @@ public class Practica {
         }
         
         System.out.println(); */
-        
+        double[][] d = distancias.getDistancias();
+        System.out.print(d[39][367]);
         Heuristic H = new Heuristic();
         SuccessorFunction S = new SuccesorFunctionEnergy();
 
@@ -75,12 +76,28 @@ public class Practica {
             for (int j = 0;j < assignaciones.get(i).size();++j) {
                 System.out.print(assignaciones.get(i).get(j) + " "); 
             }
-        System.out.println(i); 
-        }*/
-        for (int i = 0; i < goalState.getProduccionRestante().length; ++i) {
+        //System.out.println(); 
+        }
+        /*for (int i = 0; i < goalState.getProduccionRestante().length; ++i) {
             System.out.print(i + ": " + goalState.getProduccionRestante()[i] + " " + goalState.getCentrales().get(i).getProduccion());
              System.out.println();
-        }
+        }*/
+        
+        //System.out.print(goalState.getCentrales().get(30).getTipo());
+        /*double[][] d = distancias.getDistancias();
+        
+        System.out.print(goalState.getClientes().get(367).getConsumo() + " " + d[39][367] + " ");
+        System.out.println();
+        System.out.print(goalState.getClientes().get(369).getConsumo() + " " + d[39][367] + " ");
+        System.out.println();
+        System.out.print(goalState.getClientes().get(371).getConsumo() + " " + d[39][367] + " ");
+        System.out.println();
+        System.out.print(goalState.getClientes().get(487).getConsumo() + " " + d[39][367] + " ");
+        System.out.println();
+        System.out.print("sum: " + goalState.getCentrales().get(39).getProduccion());*/
+        
+        
+        
     }
     
     private static void TSPHillClimbingSearch(Board TSPB) {

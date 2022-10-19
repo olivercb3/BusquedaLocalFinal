@@ -33,8 +33,8 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         //operatorRemove();
         //operatorAdd();
         //operatorInterchange();
-        operatorSwap();
-        //OperatorSwitch();
+        //operatorSwap();
+        OperatorSwitch();
         return sucesoresCreados; 
         
         
@@ -129,16 +129,16 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
 
                         if(i != tablero.getCentrales().size() && j != tablero.getCentrales().size()) {
 
-                            double dist = distancias.get_dist(j, client);
+                            double dist = distancias.get_dist(i, client);
                             double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
-                            double n_dist = distancias.get_dist(i, client);
+                            double n_dist = distancias.get_dist(j, client);
                             double n_consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(n_dist);
-                            if (consumo < (tablero.getProduccionRestante())[j]) {
+                            if (n_consumo < (tablero.getProduccionRestante())[j]) {
                                 Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
                                 copiaTablero.getAssignaciones().get(i).remove(c);
                                 copiaTablero.getAssignaciones().get(j).add(client);
-                                copiaTablero.getProduccionRestante()[j] += consumo;
-                                copiaTablero.getProduccionRestante()[i] -= n_consumo;
+                                copiaTablero.getProduccionRestante()[i] += consumo;
+                                copiaTablero.getProduccionRestante()[j] -= n_consumo;
                                 sucesoresCreados.add(new Successor(
                                         "Cliente " + c + " ha sido movido de la central " + i + " a la central " + j,
                                         copiaTablero));
@@ -147,12 +147,12 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
 
                         else if(j != tablero.getCentrales().size())  {
                             double dist = distancias.get_dist(j, client);
-                            double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
-                            if (consumo < (tablero.getProduccionRestante())[j]) {
+                            double n_consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
+                            if (n_consumo < (tablero.getProduccionRestante())[j]) {
                                 Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
                                 copiaTablero.getAssignaciones().get(i).remove(c);
                                 copiaTablero.getAssignaciones().get(j).add(client);
-                                copiaTablero.getProduccionRestante()[j] += consumo;
+                                copiaTablero.getProduccionRestante()[j] -= n_consumo;
                                 sucesoresCreados.add(new Successor(
                                         "Cliente " + c + " ha sido movido de la central " + i + " a la central " + j,
                                         copiaTablero));
@@ -161,12 +161,12 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                         else {
 
                             if (cl.getContrato() == 1) {
-                                double n_dist = distancias.get_dist(i, client);
-                                double n_consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(n_dist);
+                                double dist = distancias.get_dist(i, client);
+                                double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
                                 Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
                                 copiaTablero.getAssignaciones().get(i).remove(c);
                                 copiaTablero.getAssignaciones().get(j).add(client);
-                                copiaTablero.getProduccionRestante()[i] -= n_consumo;
+                                copiaTablero.getProduccionRestante()[i] += consumo;
                                 sucesoresCreados.add(new Successor(
                                         "Cliente " + c + " ha sido movido de la central " + i + " a la central " + j,
                                         copiaTablero));
