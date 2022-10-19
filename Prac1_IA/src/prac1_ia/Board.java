@@ -51,7 +51,7 @@ public class Board {
         for (int i = 0; i < cl.size(); ++i) {
             assignaciones.get(cen.size()).add(i);
         }
-        InitialState(); 
+        InitialState();
     }
 
     //constructor_copia
@@ -72,6 +72,9 @@ public class Board {
 
     private void InitialState_Greedy() {
 
+        for (int i = 0; i < centrales.size(); ++i)
+            produccionRestante[i] = centrales.get(i).getProduccion();
+
         ArrayList<Integer> cental_vacia = assignaciones.get(centrales.size());
         for (int j = 0; j < cental_vacia.size(); ++j) {
 
@@ -80,7 +83,7 @@ public class Board {
             double[][] d = distancias.getDistancias();
             if (cl.getContrato() == 0) {
 
-                double [] centrales_cliente = getColumn(d,client, clientes.size());
+                double [] centrales_cliente = getColumn(d,client, centrales.size());
                 int min_distance = index_minimumArray(centrales_cliente);
                 double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(d[min_distance][client]);
 
@@ -92,13 +95,14 @@ public class Board {
                 }
                 else  {
                     boolean encontrado = false;
-                    for (int i = 0; encontrado = true && i < centrales.size(); ++i) {
+                    for (int i = 0; encontrado == false && i < centrales.size(); ++i) {
 
-                        if(produccionRestante[i] < consumo) {
+                        if( consumo < produccionRestante[i]) {
                             produccionRestante[i] -= consumo;
                             assignaciones.get(i).add(client);
                             assignaciones.get(centrales.size()).remove(j);
                             --j;
+                            encontrado = true;
                         }
                     }
                 }
@@ -110,7 +114,7 @@ public class Board {
             boolean max_superat = false;
             double[][] d = distancias.getDistancias();
             double media = meanArray(d[i]);
-            for (int j = 0; j < clientes.size() && max_superat == false; ++j) {
+            for (int j = 0; j < cental_vacia.size() && max_superat == false; ++j) {
 
                 int client = cental_vacia.get(j);
                 Cliente cl = clientes.get(client);
@@ -122,7 +126,7 @@ public class Board {
                     assignaciones.get(centrales.size()).remove(j);
                     --j;
                 }
-                else if(cl.getContrato() == 1)
+                else if(1 > produccionRestante[i])
                     max_superat = true;
             }
         }
@@ -283,7 +287,10 @@ public class Board {
         double res = Double.MAX_VALUE;
         int index = 0;
         for (int i = 0; i < array.length;++i) {
-            if(array[i] < res) index = i;
+            if(array[i] < res) {
+                index = i;
+                res = array[i];
+            }
         }
         return index;
     }

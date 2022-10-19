@@ -44,34 +44,10 @@ public class Practica {
         distancias.CalculaDistancias();
         double[][] d = distancias.getDistancias();
 
-        for(int i = 0; i < d.length; ++i) {
-            System.out.print(i + ": ");
-            for (int j = 0; j < d[0].length; ++j)
-                System.out.print(d[i][j] + " ");
-            System.out.println();
-        }
-
-
-
         board = new Board(centrales,clientes);
-        double[] prod = board.getProduccionRestante(); 
-        /*for (int j = 0; j < prod.length; ++j) {
-                System.out.print(prod[j] + " ");
-            }
-        
-        assignaciones = board.getAssignaciones();
-                
-        for (int i = 0;i < assignaciones.size(); ++i) {
-        System.out.print(i + ": "); 
-            for (int j = 0;j < assignaciones.get(i).size();++j) {
-                System.out.print(assignaciones.get(i).get(j) + " "); 
-            }
-        System.out.println(i); 
-        }
-        
-        System.out.println(); */
-        //double[][] d = distancias.getDistancias();
-        //System.out.print(d[39][367]);
+
+        imprimir_estado(board);
+
         Heuristic H = new Heuristic();
         SuccessorFunction S = new SuccesorFunctionEnergy();
 
@@ -80,35 +56,20 @@ public class Practica {
         SearchAgent agent = new SearchAgent(problem,search);
         Board goalState = (Board) search.getGoalState();
         
-        ArrayList<ArrayList<Integer>> assignaciones = goalState.getAssignaciones(); 
+        imprimir_estado(goalState);
         
-        /*for (int i = 0;i < assignaciones.size(); ++i) {
-        System.out.print(i + ": "); 
-            for (int j = 0;j < assignaciones.get(i).size();++j) {
-                System.out.print(assignaciones.get(i).get(j) + " "); 
-            }
-        //System.out.println(); 
-        }
-        /*for (int i = 0; i < goalState.getProduccionRestante().length; ++i) {
-            System.out.print(i + ": " + goalState.getProduccionRestante()[i] + " " + goalState.getCentrales().get(i).getProduccion());
-             System.out.println();
-        }*/
-        
-        //System.out.print(goalState.getCentrales().get(30).getTipo());
-        /*double[][] d = distancias.getDistancias();
+        /*System.out.print(goalState.getCentrales().get(30).getTipo());
         
         System.out.print(goalState.getClientes().get(367).getConsumo() + " " + d[39][367] + " ");
         System.out.println();
-        System.out.print(goalState.getClientes().get(369).getConsumo() + " " + d[39][367] + " ");
+        System.out.print(goalState.getClientes().get(369).getConsumo() + " " + d[39][369] + " ");
         System.out.println();
-        System.out.print(goalState.getClientes().get(371).getConsumo() + " " + d[39][367] + " ");
+        System.out.print(goalState.getClientes().get(371).getConsumo() + " " + d[39][371] + " ");
         System.out.println();
-        System.out.print(goalState.getClientes().get(487).getConsumo() + " " + d[39][367] + " ");
+        System.out.print(goalState.getClientes().get(487).getConsumo() + " " + d[39][487] + " ");
         System.out.println();
-        System.out.print("sum: " + goalState.getCentrales().get(39).getProduccion());*/
-        
-        
-        
+        System.out.print("sum: " + goalState.getCentrales().get(39).getProduccion());
+        */
     }
     
     private static void TSPHillClimbingSearch(Board TSPB) {
@@ -161,5 +122,28 @@ public class Practica {
     
     public static void runSimulation() {
 
+    }
+
+    //Funcion auxiliar
+
+    private static  void imprimir_estado(Object o){
+
+        Board board = (Board) o;
+        double[] prod = board.getProduccionRestante();
+        assignaciones = board.getAssignaciones();
+
+        for (int i = 0;i < assignaciones.size(); ++i) {
+            System.out.print(i + ": ");
+            for (int j = 0;j < assignaciones.get(i).size();++j) {
+                System.out.print(assignaciones.get(i).get(j) + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+
+        for (int j = 0; j < prod.length; ++j) {
+            System.out.println(j + ": " + prod[j] + " " + board.getCentrales().get(j).getProduccion());
+        }
+        System.out.println();
     }
 }
