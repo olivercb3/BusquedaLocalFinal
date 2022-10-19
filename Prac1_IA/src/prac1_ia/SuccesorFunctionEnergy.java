@@ -35,6 +35,7 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         //operatorInterchange();
         //operatorSwap();
         OperatorSwitch();
+        OpeartorVaciarCentral();
         return sucesoresCreados; 
         
         
@@ -176,6 +177,29 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                 }
              }
          }
+    }
+    
+    private void OpeartorVaciarCentral() {
+        ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
+        for (int i = 0; i < b.size()-1; ++i) {
+            
+                Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
+                for (int j = b.get(i).size()-1; j >= 0; --j) {
+                    
+                    int client = b.get(i).get(j);
+                    double dist = distancias.get_dist(i, client);
+                    Cliente cl = tablero.getClientes().get(client);
+                    double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
+                    copiaTablero.getAssignaciones().get(i).remove(j);
+                    copiaTablero.getAssignaciones().get(b.size()-1).add(client);
+                    copiaTablero.getProduccionRestante()[i] += consumo;
+                    
+                } 
+                sucesoresCreados.add(new Successor(
+                                            "Central " + i + " ha sido vaciada",
+                                            copiaTablero));
+           
+        }
     }
     //tener en cuenta aun las distancias a la hora de calcular el consumo.
 }
