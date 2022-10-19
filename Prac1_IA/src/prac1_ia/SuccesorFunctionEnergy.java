@@ -17,7 +17,7 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
     private static ArrayList<Boolean> operators;
     ArrayList<ArrayList<Integer>> assignaciones; 
 
-
+    
     @Override
     public List getSuccessors(Object state) {
         sucesoresCreados = new ArrayList<>(); 
