@@ -8,6 +8,10 @@ import aima.search.framework.HeuristicFunction;
 import IA.Energia.VEnergia;
 import IA.Energia.Cliente;
 
+import java.util.ArrayList;
+
+import static prac1_ia.Practica.distancias;
+
 
 /**
  *
@@ -21,7 +25,7 @@ public class Heuristic implements HeuristicFunction {
     public double getHeuristicValue(Object state) {
         Heuristic.state = (Board) state;
         try {
-            return -heuristicValue();
+            return no_assignados();
         }
         catch (Exception e) {
             System.out.print(e);
@@ -60,5 +64,40 @@ public class Heuristic implements HeuristicFunction {
         //System.out.println();
         return sum;
     }
-    
+
+    //heuristica con el dinero no producido por los no asignados (objetivo minimizar)
+    public double no_assignados() throws Exception {
+
+        double sum = 0;
+        ArrayList<Integer> cental_vacia = state.getAssignaciones().get(state.getCentrales().size());
+        for (int i = 0; i< cental_vacia.size(); ++i){
+
+            int client = cental_vacia.get(i);
+            Cliente cl = state.getClientes().get(client);
+            sum += VEnergia.getTarifaClientePenalizacion(cl.getTipo()) + VEnergia.getTarifaClienteNoGarantizada(cl.getTipo());
+        }
+        //System.out.print(sum);
+        //System.out.println();
+        return sum;
+    }
+
+    //heuristica suma de distancias (objetivo minimizar)
+    public double sum_ditancias() throws Exception {
+
+        double sum = 0;
+        ArrayList<ArrayList<Integer>> assignaciones = state.getAssignaciones();
+        for (int i = 0; i< assignaciones.size(); ++i)
+            for (int j = 0; j < assignaciones.get(i).size(); ++j){
+
+                if (i != assignaciones.size()-1) {
+                    int client = assignaciones.get(i).get(j);
+                    sum += distancias.get_dist(i, client);
+                }
+                else sum += distancias.getMax_dist();
+            }
+
+        //System.out.print(sum);
+        //System.out.println();
+        return sum;
+    }
 }

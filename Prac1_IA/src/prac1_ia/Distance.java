@@ -12,13 +12,15 @@ public class Distance {
     public static Distance instance;
     private static double[][] distancias;
     private static Centrales centrales; 
-    private static Clientes clientes; 
+    private static Clientes clientes;
+    private static double max_dist;
     
     public Distance(Centrales centrales, Clientes clientes) {
         //System.out.print("ieeeeeeeeeeeeeeee");
         Distance.centrales = centrales;
         Distance.clientes = clientes;
         distancias = new double[centrales.size()][clientes.size()];
+        max_dist = 0;
         CalculaDistancias();
     }
     
@@ -39,6 +41,7 @@ public class Distance {
          for (int j = 0; j < clientes.size();++j) {
              distancias[i][j] = distancia(clientes.get(j).getCoordX(),clientes.get(j).getCoordY(),
                      centrales.get(i).getCoordX(),centrales.get(i).getCoordY());
+             if (distancias[i][j] > max_dist) max_dist = distancias[i][j];
             }
          }
     }
@@ -57,6 +60,10 @@ public class Distance {
     
     public double get_dist(int central, int cliente) {
         return distancias[central][cliente];
+    }
+
+    public double getMax_dist() {
+        return max_dist;
     }
 
     //Funcion Auxiliar
