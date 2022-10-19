@@ -225,16 +225,15 @@ public class Board {
         }
     }
     
-    //cambio de un cliente en activo por uno inactivo
-    //No has controlado la central vacia, esta no tiene produccion restante i no se puede assignar un
-    //prioritario a ella
+    
+   
     public void swap(int central,int clienteAssignado,int clienteNoAssignado) {
-        Cliente cl = clientes.get(clienteNoAssignado);
-        Cliente cl2 = clientes.get(clienteAssignado);
+        int indice_assignado = assignaciones.get(central).get(clienteAssignado); 
+        int indice_no_assignado = assignaciones.get(assignaciones.size()-1).get(clienteNoAssignado); 
+        Cliente cl = clientes.get(indice_no_assignado);
+        Cliente cl2 = clientes.get(indice_assignado);
         //entiendo que el 1 es tarifa obligatoria
         if (cl2.getTipo() == 0) {
-            int indice_assignado = assignaciones.get(central).get(clienteAssignado); 
-            int indice_no_assignado = assignaciones.get(assignaciones.size()-1).get(clienteNoAssignado); 
             double restanteCentral1 = produccionRestante[central]; 
             double[][] d = distancias.getDistancias();
             double consumo1 = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(d[central][clienteNoAssignado]);
