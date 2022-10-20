@@ -26,7 +26,7 @@ public class Practica {
         int nc_tipoC = 25;//myRandom.nextInt(25);
 
         int[] numero_centrales = {nc_tipoA,nc_tipoB,nc_tipoC};
-        int numero_clientes = 1000;//myRandom.nextInt(1000);
+        int numero_clientes = 10000;//myRandom.nextInt(1000);
 
 
         myRandom.nextInt(1000);

@@ -81,7 +81,7 @@ public class Board {
             int client = cental_vacia.get(j);
             Cliente cl = clientes.get(client);
             double[][] d = distancias.getDistancias();
-            if (cl.getContrato() == 0) {
+            if (cl.getContrato() == 1) {
 
                 double [] centrales_cliente = getColumn(d,client, centrales.size());
                 int min_distance = index_minimumArray(centrales_cliente);
@@ -121,7 +121,7 @@ public class Board {
                 Cliente cl = clientes.get(client);
                 double dis = d[i][client];
                 double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dis);
-                if (cl.getContrato() == 1 && consumo < produccionRestante[i] && dis < media) {
+                if (cl.getContrato() == 0 && consumo < produccionRestante[i] && dis < media) {
                     assignaciones.get(i).add(client);
                     produccionRestante[i] -= consumo;
                     assignaciones.get(centrales.size()).remove(j);
@@ -150,13 +150,13 @@ public class Board {
 
                 if (consumo < produccionRestante[i]) {
 
-                    if (cl.getContrato() == 0 && consumo < produccionRestante[i]) {
+                    if (cl.getContrato() == 1 && consumo < produccionRestante[i]) {
                         assignaciones.get(i).add(client);
                         assignaciones.get(centrales.size()).remove(j);
                         --j;
                         produccionRestante[i] -= consumo;
                     }
-                    else if (cl.getContrato() == 0) {
+                    else if (cl.getContrato() == 1) {
                         max_superat = true;
                         ++indice_central;
                     }
@@ -175,13 +175,13 @@ public class Board {
                 Cliente cl = clientes.get(client);
                 double dist = distancias.get_dist(i, client);
                 double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
-                if (cl.getContrato() == 1 && consumo < produccionRestante[i]) {
+                if (cl.getContrato() == 0 && consumo < produccionRestante[i]) {
                     assignaciones.get(i).add(client);
                     cental_vacia.remove(j);
                     --j;
                     produccionRestante[i] -= consumo;
                 }
-                else if(cl.getContrato() == 1){
+                else if(cl.getContrato() == 0){
                     max_superat = true;
                     ++indice_central;
                 }
@@ -239,7 +239,7 @@ public class Board {
         Cliente cl = clientes.get(indice_no_assignado);
         Cliente cl2 = clientes.get(indice_assignado);
         //entiendo que el 1 es tarifa obligatoria
-        if (cl2.getTipo() == 0) {
+        if (cl2.getTipo() != 0) {
             double restanteCentral1 = produccionRestante[central]; 
             double[][] d = distancias.getDistancias();
             double consumo1 = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(d[central][clienteNoAssignado]);
@@ -313,7 +313,7 @@ public class Board {
 
             int client = cental_vacia.get(j);
             Cliente cl = clientes.get(client);
-            if(cl.getContrato() == 0){
+            if(cl.getContrato() == 1){
                 solucion = false;
                 System.out.println("NO ES SOLUCION");
                 System.out.println();

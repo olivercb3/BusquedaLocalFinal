@@ -161,7 +161,7 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                         }
                         else {
 
-                            if (cl.getContrato() == 1) {
+                            if (cl.getContrato() == 0) {
                                 double dist = distancias.get_dist(i, client);
                                 double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
                                 Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());

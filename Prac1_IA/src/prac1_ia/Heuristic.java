@@ -25,7 +25,7 @@ public class Heuristic implements HeuristicFunction {
     public double getHeuristicValue(Object state) {
         Heuristic.state = (Board) state;
         try {
-            return no_assignados();
+            return p_res();
         }
         catch (Exception e) {
             System.out.print(e);
@@ -50,7 +50,7 @@ public class Heuristic implements HeuristicFunction {
                 for (int j = 0; j < numero_clients; ++j) {
                     int index_client = state.getAssignaciones().get(i).get(j);
                     Cliente cl = state.getClientes().get(index_client);
-                    if (cl.getContrato() == 0) { //Garantizada
+                    if (cl.getContrato() == 1) { //Garantizada
                         sum += cl.getConsumo()*VEnergia.getTarifaClienteGarantizada(cl.getTipo());
                     }
                     else { //No garantizada
@@ -65,19 +65,25 @@ public class Heuristic implements HeuristicFunction {
         return sum;
     }
 
-    //heuristica con el dinero no producido por los no asignados (objetivo minimizar)
-    public double no_assignados() throws Exception {
+    // heuristica que minimiza la produccion restante priorizando centrales mas grandes (objetivo minimizar)
+    // tipo 0 = tipo A, tipo 1 = tipo B, tipo 2 = tipo C
+    // tipo A > B > C.
+    // coste_marcha/coste_parada (cuanto cuesta de mas tenerlo en marcha respecto parado, sin nadie):
+    // A = 1.33333, B = 2, C = 3,3333333
+    // (ben_medio*max_prod - max_prod * coste_prod)/coste_parada (margen de beneficio maximo, ben_medio = 500):
+    // A = 21.166666, B = 19, C = 20
+    public double p_res() throws Exception {
 
         double sum = 0;
-        ArrayList<Integer> cental_vacia = state.getAssignaciones().get(state.getCentrales().size());
-        for (int i = 0; i< cental_vacia.size(); ++i){
+        double [] p_res = state.getProduccionRestante();
+        for (int i = 0; i < p_res.length; ++i){
+            int tipo = state.getCentrales().get(i).getTipo();
+            double precio = VEnergia.getCosteProduccionMW(tipo);
+            sum += precio/50.0 * p_res[i];
+            }
 
-            int client = cental_vacia.get(i);
-            Cliente cl = state.getClientes().get(client);
-            sum += VEnergia.getTarifaClientePenalizacion(cl.getTipo()) + VEnergia.getTarifaClienteNoGarantizada(cl.getTipo());
-        }
-        //System.out.print(sum);
-        //System.out.println();
+        System.out.print(sum);
+        System.out.println();
         return sum;
     }
 
