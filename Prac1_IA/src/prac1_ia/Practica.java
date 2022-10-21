@@ -10,73 +10,17 @@ import aima.search.informed.SimulatedAnnealingSearch;
 public class Practica {
     
     private static Board board; 
-    private static ArrayList<ArrayList<Integer>> assignaciones; 
 
      public static Centrales centrales;
      public static Clientes clientes;
-     public static ArrayList<ArrayList<Integer>> assignacions;
      public static  Distance distancias;
      
     public static void main(String[] args) throws Exception {
 
-        /*Scanner capt = new Scanner(System.in);
-        System.out.print("Ingrese numero de centrales de tipo A\t: ");
-        int nc_tipoA = capt.nextInt();
 
-        System.out.print("Ingrese numero de centrales de tipo B\t: ");
-        int nc_tipoB = capt.nextInt();
-
-        System.out.print("Ingrese numero de centrales de tipo C\t: ");
-        int nc_tipoC = capt.nextInt();
-
-        int[] numero_centrales = {nc_tipoA,nc_tipoB,nc_tipoC};
-
-        System.out.print("Ingrese numero de clientes\t: ");
-        int numero_clientes = capt.nextInt();
-
-        System.out.print("Ingrese proporción de clientes con consumo grande (numero entre 0 y 100) \t:");
-        int p1_aux = capt.nextInt();
-        double p1 = (double)p1_aux/100.0; 
-        System.out.println(p1);
-
-        System.out.print("Ingrese proporción de clientes con consumo muy grande (numero entre 0 y 100) \t:");
-        int p2_aux = capt.nextInt();
-        double p2 = (double)p2_aux/100.0; 
-        System.out.println(p2);
-
-        System.out.print("Ingrese proporción de clientes con consumo extra grande (numero entre 0 y 100) \t:");
-        int p3_aux = capt.nextInt();
-        double p3 = (double)p3_aux/100.0; 
-        System.out.println(p3);
-
-        System.out.print("Ingrese proporción de clientes con consumo servicio garantizadop (numero entre 0 y 100) \t:");
-        double proporcion_prioridad = capt.nextDouble();
-
-        double[] proporcion_tipos_clientes = {p1, p2, p3};*/
-        Random myRandom = new Random(4388);
-
-        int nc_tipoA = 5; //myRandom.nextInt(5);
-        int nc_tipoB = 10; //myRandom.nextInt(10);
-        int nc_tipoC = 25;//myRandom.nextInt(25);
-
-        int[] numero_centrales = {nc_tipoA,nc_tipoB,nc_tipoC};
-        int numero_clientes = 1000;//myRandom.nextInt(1000);
-
-
-        myRandom.nextInt(1000);
-        double p1 = 0.25;//myRandom.nextInt(1000) / 1000.0;
-        double p2 = 0.3;//myRandom.nextInt((int)((1-p1) * 1000)) / 1000.0;
-        double p3 = 1-p1-p2;
-
-        double[] proporcion_tipos_clientes = {p1, p2, p3};
-        double proporcion_prioridad = 0.75;//myRandom.nextInt(1000) / 1000.0;
-
-        centrales = new Centrales(numero_centrales, 1);
-        clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200);
-
+        generar_aleatorio();
         distancias = Distance.getInstance(centrales,clientes);
         board = new Board(centrales,clientes);
-
         imprimir_estado(board);
         HillClimbingSearch(board);
     }
@@ -157,12 +101,11 @@ public class Practica {
 
         Board board = (Board) o;
         double[] prod = board.getProduccionRestante();
-        assignaciones = board.getAssignaciones();
 
-        for (int i = 0;i < assignaciones.size(); ++i) {
+        for (int i = 0;i < board.getAssignaciones().size(); ++i) {
             System.out.print(i + ": ");
-            for (int j = 0;j < assignaciones.get(i).size();++j) {
-                System.out.print(assignaciones.get(i).get(j) + " ");
+            for (int j = 0;j < board.getAssignaciones().get(i).size();++j) {
+                System.out.print(board.getAssignaciones().get(i).get(j) + " ");
             }
             System.out.println();
         }
@@ -172,5 +115,69 @@ public class Practica {
             System.out.println(j + ": " + prod[j] + " " + board.getCentrales().get(j).getProduccion());
         }
         System.out.println();
+    }
+    private static void generar_aleatorio() throws Exception{
+
+        Random myRandom = new Random(4388);
+
+        int nc_tipoA = 5; //myRandom.nextInt(5);
+        int nc_tipoB = 10; //myRandom.nextInt(10);
+        int nc_tipoC = 25;//myRandom.nextInt(25);
+
+        int[] numero_centrales = {nc_tipoA,nc_tipoB,nc_tipoC};
+        int numero_clientes = 1000;//myRandom.nextInt(1000);
+
+
+        myRandom.nextInt(1000);
+        double p1 = 0.25;//myRandom.nextInt(1000) / 1000.0;
+        double p2 = 0.3;//myRandom.nextInt((int)((1-p1) * 1000)) / 1000.0;
+        double p3 = 1-p1-p2;
+
+        double[] proporcion_tipos_clientes = {p1, p2, p3};
+        double proporcion_prioridad = 0.75;//myRandom.nextInt(1000) / 1000.0;
+
+        centrales = new Centrales(numero_centrales, 1);
+        clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200);
+    }
+
+    private static void generar_manual(Centrales cen, Clientes cl) throws Exception {
+
+        Scanner capt = new Scanner(System.in);
+        System.out.print("Ingrese numero de centrales de tipo A\t: ");
+        int nc_tipoA = capt.nextInt();
+
+        System.out.print("Ingrese numero de centrales de tipo B\t: ");
+        int nc_tipoB = capt.nextInt();
+
+        System.out.print("Ingrese numero de centrales de tipo C\t: ");
+        int nc_tipoC = capt.nextInt();
+
+        int[] numero_centrales = {nc_tipoA,nc_tipoB,nc_tipoC};
+
+        System.out.print("Ingrese numero de clientes\t: ");
+        int numero_clientes = capt.nextInt();
+
+        System.out.print("Ingrese proporción de clientes con consumo grande (numero entre 0 y 100) \t:");
+        int p1_aux = capt.nextInt();
+        double p1 = (double)p1_aux/100.0;
+        System.out.println(p1);
+
+        System.out.print("Ingrese proporción de clientes con consumo muy grande (numero entre 0 y 100) \t:");
+        int p2_aux = capt.nextInt();
+        double p2 = (double)p2_aux/100.0;
+        System.out.println(p2);
+
+        System.out.print("Ingrese proporción de clientes con consumo extra grande (numero entre 0 y 100) \t:");
+        int p3_aux = capt.nextInt();
+        double p3 = (double)p3_aux/100.0;
+        System.out.println(p3);
+
+        System.out.print("Ingrese proporción de clientes con consumo servicio garantizadop (numero entre 0 y 100) \t:");
+        double proporcion_prioridad = capt.nextDouble();
+
+        double[] proporcion_tipos_clientes = {p1, p2, p3};
+
+        cen = new Centrales(numero_centrales, 1);
+        cl = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200);
     }
 }

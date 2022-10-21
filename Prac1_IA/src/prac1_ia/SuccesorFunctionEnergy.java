@@ -43,36 +43,38 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
 
     private void operatorSwap() { 
         ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
+        double[] p_restante = tablero.getProduccionRestante();
+
         for (int i = 0; i < b.size()-1;++i) {
             for (int j = 0; j < b.get(i).size();++j) {
+
+                int client1 = b.get(i).get(j);
+                Cliente cl1 = tablero.getClientes().get(client1);
+
+                double dist1 = distancias.get_dist(i, client1);
+                double consumo1 = cl1.getConsumo() + cl1.getConsumo() * VEnergia.getPerdida(dist1);
+
                 for (int k = i+1; k < b.size();++k) {
                     for (int s = 0; s < b.get(k).size(); ++s) {
                         
-                        int client1 = b.get(i).get(j);
-                        Cliente cl1 = tablero.getClientes().get(client1);
-                        
                         int client2 = b.get(k).get(s);
                         Cliente cl2 = tablero.getClientes().get(client2);
-                        
+
+                        double n_dist2 = distancias.get_dist(i, client2);
+                        double n_consumo2 = cl2.getConsumo() + cl2.getConsumo() * VEnergia.getPerdida(n_dist2);
+
                         if (k == b.size()-1) {
-                            double dist = distancias.get_dist(i, client1);
-                            double consumo = cl1.getConsumo() + cl1.getConsumo() * VEnergia.getPerdida(dist);
-                            double n_dist = distancias.get_dist(i, client2);
-                            double n_consumo = cl2.getConsumo() + cl2.getConsumo() * VEnergia.getPerdida(n_dist);
-                          
-                            
-                            if (n_consumo <= ((tablero.getProduccionRestante())[i]+consumo)) {
+                            if (n_consumo2 <= (p_restante[i]+consumo1)) {
+
                                 Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
                                 copiaTablero.getAssignaciones().get(i).remove(j);
                                 copiaTablero.getAssignaciones().get(k).remove(s);
                                 copiaTablero.getAssignaciones().get(i).add(client2);
                                 copiaTablero.getAssignaciones().get(k).add(client1);
                                 
-                                copiaTablero.getProduccionRestante()[i] += consumo;
-                                copiaTablero.getProduccionRestante()[i] -= n_consumo;
-                                
-         
-                                
+                                copiaTablero.getProduccionRestante()[i] += consumo1;
+                                copiaTablero.getProduccionRestante()[i] -= n_consumo2;
+
                                 sucesoresCreados.add(new Successor(
                                         "Cliente " + b.get(i).get(j) + " ha sido intercambiado con " + b.get(k).get(s),
                                         copiaTablero));
@@ -80,17 +82,14 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                         }
                         
                         else if(tablero.getClientes().get(client1).getContrato() == 0) { //No es prioritario, el cliente de la central i
-                            double dist1 = distancias.get_dist(i, client1);
-                            double consumo1 = cl1.getConsumo() + cl1.getConsumo() * VEnergia.getPerdida(dist1);
+
                             double n_dist1 = distancias.get_dist(k, client1);
                             double n_consumo1 = cl1.getConsumo() + cl1.getConsumo() * VEnergia.getPerdida(n_dist1);
-                            
+
                             double dist2 = distancias.get_dist(k, client2);
                             double consumo2 = cl2.getConsumo() + cl2.getConsumo() * VEnergia.getPerdida(dist2);
-                            double n_dist2 = distancias.get_dist(i, client2);
-                            double n_consumo2 = cl2.getConsumo() + cl2.getConsumo() * VEnergia.getPerdida(n_dist2);
-                            
-                            if (n_consumo1 <= ((tablero.getProduccionRestante())[k]+consumo2) && n_consumo2 <= ((tablero.getProduccionRestante())[i])+consumo1) {
+
+                            if (n_consumo1 <= (p_restante[k]+consumo2) && n_consumo2 <= (p_restante[i])+consumo1) {
                                 Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
                                 copiaTablero.getAssignaciones().get(i).remove(j);
                                 copiaTablero.getAssignaciones().get(k).remove(s);
@@ -114,24 +113,29 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         }
     }
 
-    private void OperatorSwitch() { //funciona
+    private void OperatorSwitch() {
         ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
+        double[] p_restante = tablero.getProduccionRestante();
+
         for (int i = 0; i < b.size(); ++i) {
             for (int c = 0; c < b.get(i).size();++c) {
+
+                int client = b.get(i).get(c);
+                Cliente cl = tablero.getClientes().get(client);
+
                 for (int j = 0; j < b.size(); ++j) {
                     if (j == i);
                     else {
 
-                        int client = b.get(i).get(c);
-                        Cliente cl = tablero.getClientes().get(client);
-
-                        if(i != tablero.getCentrales().size() && j != tablero.getCentrales().size()) {
+                        if(i != tablero.getCentrales().size() && j != tablero.getCentrales().size()) { //Ninguna de as centrales es la vacia
 
                             double dist = distancias.get_dist(i, client);
                             double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
+
                             double n_dist = distancias.get_dist(j, client);
                             double n_consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(n_dist);
-                            if (n_consumo < (tablero.getProduccionRestante())[j]) {
+
+                            if (n_consumo < p_restante[j]) {
                                 Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
                                 copiaTablero.getAssignaciones().get(i).remove(c);
                                 copiaTablero.getAssignaciones().get(j).add(client);
@@ -143,10 +147,12 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                             }
                         }
 
-                        else if(j != tablero.getCentrales().size())  {
-                            double dist = distancias.get_dist(j, client);
-                            double n_consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
-                            if (n_consumo < (tablero.getProduccionRestante())[j]) {
+                        else if(j != tablero.getCentrales().size())  { //La central de origen es la vacia
+
+                            double n_dist = distancias.get_dist(j, client);
+                            double n_consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(n_dist);
+
+                            if (n_consumo < p_restante[j]) {
                                 Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
                                 copiaTablero.getAssignaciones().get(i).remove(c);
                                 copiaTablero.getAssignaciones().get(j).add(client);
@@ -158,9 +164,11 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                         }
                         else {
 
-                            if (cl.getContrato() == 0) {
-                                double dist = distancias.get_dist(i, client);
-                                double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
+                            double dist = distancias.get_dist(i, client);
+                            double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
+
+                            if (cl.getContrato() == 0) { //La central destino es la vacia
+
                                 Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
                                 copiaTablero.getAssignaciones().get(i).remove(c);
                                 copiaTablero.getAssignaciones().get(j).add(client);
@@ -175,7 +183,9 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
              }
          }
     }
-    
+
+    // Vacia una central y la pone en la vacia, no se escojera porque los lleva a la central vacia por lo que tendran que
+    // pagar la penalizacion y no se consigue ningun beneficio. Se deberia enviar a qualquier central no solo a la vacia
     private void OpeartorVaciarCentral() {
         ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
         for (int i = 0; i < b.size()-1; ++i) {
@@ -255,7 +265,6 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
 
     */
 }
-
 
 //3 operadores: switch, swap, rellenar central
 //proposta que els clients estiguessin ordenats dins de la matriu, no se encara exactament perque pero podria ser util a nivell de temps
