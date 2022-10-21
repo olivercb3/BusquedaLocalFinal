@@ -31,7 +31,7 @@ public class Practica {
         try {
             Heuristic H = new Heuristic();
             SuccesorFunctionEnergy S = new SuccesorFunctionEnergy();
-            S.setOperators(false, true, true);
+            S.setOperators(true, true, true);
 
             Problem problem =  new Problem(board,S, new GoalTestEnergy(),H);
             Search search =  new HillClimbingSearch();

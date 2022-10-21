@@ -22,7 +22,7 @@ public class SuccesorFunctionSimulatedAnnealing implements SuccessorFunction{
     
     private static List<Successor> sucesoresCreados;
     private static Board tablero;
-    private static Random rand = new Random();
+    private static Random rand = new Random(202122);
 
     
     @Override
@@ -37,7 +37,6 @@ public class SuccesorFunctionSimulatedAnnealing implements SuccessorFunction{
         return sucesoresCreados;
 
     }
-    
 
     private void operatorSwap() { 
         ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
@@ -48,8 +47,6 @@ public class SuccesorFunctionSimulatedAnnealing implements SuccessorFunction{
         int k = rand.nextInt((b.size())-i+1)+(i+1); 
         int s = rand.nextInt(b.get(k).size());
         //return random.nextInt(max - min) + min;
-        
-        
 
         int client1 = b.get(i).get(j);
         Cliente cl1 = tablero.getClientes().get(client1);
@@ -104,7 +101,6 @@ public class SuccesorFunctionSimulatedAnnealing implements SuccessorFunction{
             }
         }
     }
-
 
    private void OperatorSwitch() {
         ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
@@ -171,9 +167,6 @@ public class SuccesorFunctionSimulatedAnnealing implements SuccessorFunction{
             }
         }
     }
-             
-         
-    
 
     // Vacia una central y la pone en la vacia, no se escojera porque los lleva a la central vacia por lo que tendran que
     // pagar la penalizacion y no se consigue ningun beneficio. Se deberia enviar a qualquier central no solo a la vacia

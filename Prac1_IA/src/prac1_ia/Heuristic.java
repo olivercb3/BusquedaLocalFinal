@@ -73,8 +73,12 @@ public class Heuristic implements HeuristicFunction {
     // A = 21.166666, B = 19, C = 20
 
     /**
-     * Función heurística que minimiza la producción restante priorizando centrales más grandes (objetivo minimizar).
+     * Función heurística que minimiza la producción restante priorizando centrales más grandes y el numero de clientes sin
+     * asignar priotizando a los clientes mas grandes (objetivo minimizar).
      * Para el peso que se le asigna a cada tipo de central se utiliza la division coste_producción/coste_producción_minimo
+     * y se multiplica la porcion de la producion libre de cada central.
+     * Para el de los clientes se usa la division beneficio_Mw/beneficio_min
+     * Para la suma de ambos se multiplica el de los clientes por 1.8, para igualar ponderaciones ( 1,8 = 3/(5/3) )
      */
     public double p_res() throws Exception {
 
