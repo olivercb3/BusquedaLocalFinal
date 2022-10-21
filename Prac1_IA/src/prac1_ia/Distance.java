@@ -16,7 +16,6 @@ public class Distance {
     private static double max_dist;
     
     public Distance(Centrales centrales, Clientes clientes) {
-        //System.out.print("ieeeeeeeeeeeeeeee");
         Distance.centrales = centrales;
         Distance.clientes = clientes;
         distancias = new double[centrales.size()][clientes.size()];
@@ -36,7 +35,6 @@ public class Distance {
     }
     
     public void CalculaDistancias() {
-        //System.out.print("ieeeeeeeeeeeeeeee");
         for (int i= 0; i < centrales.size();++i) {
          for (int j = 0; j < clientes.size();++j) {
              distancias[i][j] = distancia(clientes.get(j).getCoordX(),clientes.get(j).getCoordY(),

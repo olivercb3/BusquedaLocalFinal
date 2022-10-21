@@ -17,7 +17,6 @@ public class Practica {
      
     public static void main(String[] args) throws Exception {
 
-
         generar_aleatorio();
         distancias = Distance.getInstance(centrales,clientes);
         board = new Board(centrales,clientes);
@@ -127,7 +126,6 @@ public class Practica {
         int[] numero_centrales = {nc_tipoA,nc_tipoB,nc_tipoC};
         int numero_clientes = 1000;//myRandom.nextInt(1000);
 
-
         myRandom.nextInt(1000);
         double p1 = 0.25;//myRandom.nextInt(1000) / 1000.0;
         double p2 = 0.3;//myRandom.nextInt((int)((1-p1) * 1000)) / 1000.0;
@@ -140,7 +138,7 @@ public class Practica {
         clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200);
     }
 
-    private static void generar_manual(Centrales cen, Clientes cl) throws Exception {
+    private static void generar_manual() throws Exception {
 
         Scanner capt = new Scanner(System.in);
         System.out.print("Ingrese numero de centrales de tipo A\t: ");
@@ -177,7 +175,7 @@ public class Practica {
 
         double[] proporcion_tipos_clientes = {p1, p2, p3};
 
-        cen = new Centrales(numero_centrales, 1);
-        cl = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200);
+        centrales = new Centrales(numero_centrales, 1);
+        clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200);
     }
 }

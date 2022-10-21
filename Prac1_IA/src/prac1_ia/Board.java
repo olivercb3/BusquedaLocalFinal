@@ -244,6 +244,10 @@ public class Board {
 
     //Funciones Auxiliares
 
+    /**
+     * Función auxiliar para sacar el valor medio de un vector de double
+     * @param array Vector del que se quiere obtener la media
+     */
     public static double meanArray(double[] array) {
         double sum = 0;
         for (double value : array) {
@@ -251,7 +255,10 @@ public class Board {
         }
         return sum/array.length;
     }
-
+    /**
+     * Función auxiliar para obtener el la posicion que tiene el valor minimo de un vector
+     * @param array Vector del que se quiere obtener el minimo
+     */
     public static int index_minimumArray(double[] array) {
         double res = Double.MAX_VALUE;
         int index = 0;
@@ -264,6 +271,12 @@ public class Board {
         return index;
     }
 
+    /**
+     * Función auxiliar para obtener una columna de una matriz de double
+     * @param array Matriz de la que se quiere obtener la columna
+     * @param index Indice de la columna que se quiere obtener
+     * @param size_column Tamaño de la columna que se quiere obtener
+     */
     public static double[] getColumn(double[][] array, int index, int size_column){
         double[] column = new double[size_column];
         for(int i=0; i < size_column; i++){
@@ -272,6 +285,9 @@ public class Board {
         return column;
     }
 
+    /**
+     * Función auxiliar para comprobar que la matriz de asignaciones contiene una solución válida
+     */
     private void comprobar_solucion() {
 
         ArrayList<Integer> cental_vacia = assignaciones.get(centrales.size());
@@ -287,6 +303,7 @@ public class Board {
             }
         }
     }
+
     /*
     void afegeix(int central, int no_assignado) {
         assignaciones.get(central).add(no_assignado);

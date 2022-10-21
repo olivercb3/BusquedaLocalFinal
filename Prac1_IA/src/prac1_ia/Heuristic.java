@@ -72,6 +72,11 @@ public class Heuristic implements HeuristicFunction {
     // A = 1.33333, B = 2, C = 3,3333333
     // (ben_medio*max_prod - max_prod * coste_prod)/coste_parada (margen de beneficio maximo, ben_medio = 500):
     // A = 21.166666, B = 19, C = 20
+
+    /**
+     * Función heurística que minimiza la producción restante priorizando centrales más grandes (objetivo minimizar).
+     * Para el peso que se le asigna a cada tipo de central se utiliza la division coste_producción/coste_producción_minimo
+     */
     public double p_res() throws Exception {
 
         double sum = 0;
@@ -87,6 +92,10 @@ public class Heuristic implements HeuristicFunction {
         return sum;
     }
 
+    /**
+     * Función heurística que minimiza la producción restante priorizando centrales más grandes (objetivo minimizar).
+     * Para el peso que se le asigna a cada tipo de central se utiliza la division coste_producción/coste_producción_minimo
+     */
     //heuristica suma de distancias (objetivo minimizar)
     public double sum_ditancias() throws Exception {
 
