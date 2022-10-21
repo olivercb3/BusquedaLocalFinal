@@ -75,63 +75,56 @@ public class Practica {
         clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200);
 
         distancias = Distance.getInstance(centrales,clientes);
-        distancias.CalculaDistancias();
-        double[][] d = distancias.getDistancias();
-
         board = new Board(centrales,clientes);
 
-        //imprimir_estado(board);
-
-        Heuristic H = new Heuristic();
-        SuccessorFunction S = new SuccesorFunctionEnergy();
-
-        Problem problem =  new Problem(board,S, new GoalTestEnergy(),H);
-        Search search =  new HillClimbingSearch();
-        SearchAgent agent = new SearchAgent(problem,search);
-        Board goalState = (Board) search.getGoalState();
-        
-        imprimir_estado(goalState);
-        
-        /*System.out.print(goalState.getCentrales().get(30).getTipo());
-        
-        System.out.print(goalState.getClientes().get(367).getConsumo() + " " + d[39][367] + " ");
-        System.out.println();
-        System.out.print(goalState.getClientes().get(369).getConsumo() + " " + d[39][369] + " ");
-        System.out.println();
-        System.out.print(goalState.getClientes().get(371).getConsumo() + " " + d[39][371] + " ");
-        System.out.println();
-        System.out.print(goalState.getClientes().get(487).getConsumo() + " " + d[39][487] + " ");
-        System.out.println();
-        System.out.print("sum: " + goalState.getCentrales().get(39).getProduccion());
-        */
+        imprimir_estado(board);
+        HillClimbingSearch(board);
     }
     
-    private static void TSPHillClimbingSearch(Board TSPB) {
-        System.out.println("\nTSP HillClimbing  -->");
+    private static void HillClimbingSearch(Board board) {
+        System.out.println("\nHillClimbing  -->");
         try {
-            Problem problem =  new Problem(TSPB,new SuccesorFunctionEnergy(), new GoalTestEnergy(),new Heuristic());
+            Heuristic H = new Heuristic();
+            SuccesorFunctionEnergy S = new SuccesorFunctionEnergy();
+            S.setOperators(true, true, true);
+
+            Problem problem =  new Problem(board,S, new GoalTestEnergy(),H);
             Search search =  new HillClimbingSearch();
             SearchAgent agent = new SearchAgent(problem,search);
+            Board goalState = (Board) search.getGoalState();
 
-            System.out.println();
-            printActions(agent.getActions());
-            printInstrumentation(agent.getInstrumentation());
+            printActions(agent.getActions());                 //Imprime todos los operadores usados
+            printInstrumentation(agent.getInstrumentation()); //Imprimero el numero de nodos expandidos
+
+            imprimir_estado(goalState);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static void TSPSimulatedAnnealingSearch(Board board) {
-        System.out.println("\nTSP Simulated Annealing  -->");
+    private static void SimulatedAnnealingSearch(Board board, int steps, int steps_cambioT, int k, double lamb) {
+        System.out.println("\nSimulated Annealing  -->");
         try {
-            Problem problem =  new Problem(board,new SuccesorFunctionEnergy(), new GoalTestEnergy(), new Heuristic());
-            SimulatedAnnealingSearch search =  new SimulatedAnnealingSearch(2000,100,5,0.001);
-            //search.traceOn();
-            SearchAgent agent = new SearchAgent(problem,search);
 
-            System.out.println();
-            printActions(agent.getActions());
-            printInstrumentation(agent.getInstrumentation());
+            //valores por defecto, esto cuando se llamen se definen
+            steps = 2000;
+            steps_cambioT = 100;
+            k = 5;
+            lamb = 0.001;
+
+            Heuristic H = new Heuristic();
+            SuccesorFunctionEnergy S = new SuccesorFunctionEnergy();
+            S.setOperators(true, true, true);
+
+            Problem problem =  new Problem(board,S, new GoalTestEnergy(),H);
+            SimulatedAnnealingSearch search =  new SimulatedAnnealingSearch(steps,steps_cambioT,k,lamb);
+            SearchAgent agent = new SearchAgent(problem,search);
+            Board goalState = (Board) search.getGoalState();
+
+            printActions(agent.getActions());                 //Imprime todos los operadores usados
+            printInstrumentation(agent.getInstrumentation()); //Imprimero el numero de nodos expandidos
+
+            imprimir_estado(goalState);
         } catch (Exception e) {
             e.printStackTrace();
         }

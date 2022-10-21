@@ -82,8 +82,8 @@ public class Heuristic implements HeuristicFunction {
             sum += precio/50.0 * p_res[i];
             }
 
-        System.out.print(sum);
-        System.out.println();
+        //System.out.print(sum);
+        //System.out.println();
         return sum;
     }
 

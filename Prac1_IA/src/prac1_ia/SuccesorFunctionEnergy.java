@@ -23,52 +23,24 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         sucesoresCreados = new ArrayList<>(); 
         tablero = (Board) state;
         assignaciones = tablero.getAssignaciones();
-        //int i=0;
-        /*
-        if(operators.get(i++)) operatorAdd();
+
+        int i=0;
         if(operators.get(i++)) operatorSwap();
-        if(operators.get(i++)) operatorInterchange();
-        if(operators.get(i)) operatorRemove();
-         */
-        //operatorRemove();
-        //operatorAdd();
-        //operatorInterchange();
-        operatorSwap();
-        OperatorSwitch();
-        OpeartorVaciarCentral();
-        return sucesoresCreados; 
-        
-        
+        if(operators.get(i++)) OperatorSwitch();
+        if(operators.get(i++)) OpeartorVaciarCentral();
+
+        return sucesoresCreados;
     }
     
-    public void setOperators(Boolean opAdd, Boolean opSwap, Boolean opRemove, Boolean opInterchange){
-        operators = new ArrayList<>(4);
-        operators.add(opAdd);
+    public void setOperators(Boolean opSwap, Boolean opSwitch, Boolean opVaciarCentral){
+        operators = new ArrayList<>(3);
         operators.add(opSwap);
-        operators.add(opRemove);
-        operators.add(opInterchange);
+        operators.add(opSwitch);
+        operators.add(opVaciarCentral);
 
     }
 
-    private void operatorAdd() { //funciona
-        for (int i = 0; i < assignaciones.size()-1;++i) {
-            for (int j = 0;j < assignaciones.get(assignaciones.size()-1).size();++j) { //recorre los no asignados
-                int no_assignado = assignaciones.get(assignaciones.size()-1).get(j); 
-                Board copia = tablero; 
-                double prod_res = copia.getProduccionRestante()[i];
-                double consumo_cliente = copia.getClientes().get(no_assignado).getConsumo();
-                if (prod_res > consumo_cliente) {
-                    copia.getProduccionRestante()[i] -= consumo_cliente;
-                    copia.afegeix(i, no_assignado);
-                    copia.esborra(assignaciones.size()-1, j);
-                }
-                sucesoresCreados.add(new Successor(
-                                "HOLA",
-                                copia));
-            }
-        }
-    }
-    
+
     private void operatorSwap() { 
         ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
         for (int i = 0; i < b.size()-1;++i) {
@@ -107,7 +79,7 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                             }
                         }
                         
-                        else {
+                        else if(tablero.getClientes().get(client1).getContrato() == 0) { //No es prioritario, el cliente de la central i
                             double dist1 = distancias.get_dist(i, client1);
                             double consumo1 = cl1.getConsumo() + cl1.getConsumo() * VEnergia.getPerdida(dist1);
                             double n_dist1 = distancias.get_dist(k, client1);
@@ -141,40 +113,7 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
             }
         }
     }
-    
-    private void operatorRemove() { //funciona
-        for (int i = 0; i < assignaciones.size();++i) {
-            for (int j = 0; j < assignaciones.get(i).size();++j) {
-                Board copiaTablero = tablero; 
-                int indice_cliente = assignaciones.get(i).get(j); 
-                if (copiaTablero.getClientes().get(indice_cliente).getContrato() == 0) {
-                    copiaTablero.remove(i,j);
-                }
-                sucesoresCreados.add(new Successor(
-                                "Cliente borrado " + j + "en la central" + i,
-                                copiaTablero));
-            }
-        }
-    }
-    
-    private void operatorInterchange() { //funciona
-        for (int i = 0; i < assignaciones.size()-2; ++i) {
-            for (int c = 0; c < assignaciones.get(i).size();++c) {
-                for (int j = i+1; j < assignaciones.size()-1; ++j) {
-                     for (int k = 0; k < assignaciones.get(j).size();++k) {
-                        Board copiaTablero = tablero; 
-                        copiaTablero.interchange(i,j,c,k);
-                        sucesoresCreados.add(new Successor(
-                                    "Intercambio entre los clientes" + c + "y " + k + 
-                                            "de las centrales" + i + "y " + j + "respectivamente",
-                                    copiaTablero));
-                    }
-                }
-             }
-         }
-      }
-    
-    
+
     private void OperatorSwitch() { //funciona
         ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
         for (int i = 0; i < b.size(); ++i) {
@@ -247,11 +186,13 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                     int client = b.get(i).get(j);
                     double dist = distancias.get_dist(i, client);
                     Cliente cl = tablero.getClientes().get(client);
-                    double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
-                    copiaTablero.getAssignaciones().get(i).remove(j);
-                    copiaTablero.getAssignaciones().get(b.size()-1).add(client);
-                    copiaTablero.getProduccionRestante()[i] += consumo;
-                    
+                    if(cl.getContrato() == 0){
+
+                        double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
+                        copiaTablero.getAssignaciones().get(i).remove(j);
+                        copiaTablero.getAssignaciones().get(b.size()-1).add(client);
+                        copiaTablero.getProduccionRestante()[i] += consumo;
+                    }
                 } 
                 sucesoresCreados.add(new Successor(
                                             "Central " + i + " ha sido vaciada",
@@ -259,7 +200,60 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
            
         }
     }
-    //tener en cuenta aun las distancias a la hora de calcular el consumo.
+
+    /*
+    private void operatorAdd() { //funciona
+        for (int i = 0; i < assignaciones.size()-1;++i) {
+            for (int j = 0;j < assignaciones.get(assignaciones.size()-1).size();++j) { //recorre los no asignados
+                int no_assignado = assignaciones.get(assignaciones.size()-1).get(j);
+                Board copia = tablero;
+                double prod_res = copia.getProduccionRestante()[i];
+                double consumo_cliente = copia.getClientes().get(no_assignado).getConsumo();
+                if (prod_res > consumo_cliente) {
+                    copia.getProduccionRestante()[i] -= consumo_cliente;
+                    copia.afegeix(i, no_assignado);
+                    copia.esborra(assignaciones.size()-1, j);
+                }
+                sucesoresCreados.add(new Successor(
+                                "HOLA",
+                                copia));
+            }
+        }
+    }
+
+    private void operatorRemove() { //funciona
+        for (int i = 0; i < assignaciones.size();++i) {
+            for (int j = 0; j < assignaciones.get(i).size();++j) {
+                Board copiaTablero = tablero;
+                int indice_cliente = assignaciones.get(i).get(j);
+                if (copiaTablero.getClientes().get(indice_cliente).getContrato() == 0) {
+                    copiaTablero.remove(i,j);
+                }
+                sucesoresCreados.add(new Successor(
+                                "Cliente borrado " + j + "en la central" + i,
+                                copiaTablero));
+            }
+        }
+    }
+
+    private void operatorInterchange() { //funciona
+        for (int i = 0; i < assignaciones.size()-2; ++i) {
+            for (int c = 0; c < assignaciones.get(i).size();++c) {
+                for (int j = i+1; j < assignaciones.size()-1; ++j) {
+                     for (int k = 0; k < assignaciones.get(j).size();++k) {
+                        Board copiaTablero = tablero;
+                        copiaTablero.interchange(i,j,c,k);
+                        sucesoresCreados.add(new Successor(
+                                    "Intercambio entre los clientes" + c + "y " + k +
+                                            "de las centrales" + i + "y " + j + "respectivamente",
+                                    copiaTablero));
+                    }
+                }
+             }
+         }
+      }
+
+    */
 }
 
 
