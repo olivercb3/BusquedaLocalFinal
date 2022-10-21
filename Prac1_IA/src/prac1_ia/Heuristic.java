@@ -77,7 +77,7 @@ public class Heuristic implements HeuristicFunction {
      * asignar priotizando a los clientes mas grandes (objetivo minimizar).
      * Para el peso que se le asigna a cada tipo de central se utiliza la division coste_producción/coste_producción_minimo
      * y se multiplica la porcion de la producion libre de cada central.
-     * Para el de los clientes se usa la division beneficio_Mw/beneficio_min
+     * Para el de los clientes se usa la division beneficio_Mw/beneficio_min, que beneficia a los clientes pequeños que tienen un mejor ratio.
      * Para la suma de ambos se multiplica el de los clientes por 1.8, para igualar ponderaciones ( 1,8 = 3/(5/3) )
      */
     public double p_res() throws Exception {
