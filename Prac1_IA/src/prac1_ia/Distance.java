@@ -19,7 +19,7 @@ public class Distance {
         Distance.centrales = centrales;
         Distance.clientes = clientes;
         distancias = new double[centrales.size()][clientes.size()];
-        max_dist = 0;
+        max_dist = Math.sqrt(2 * Math.pow(100., 2));
         CalculaDistancias();
     }
     
@@ -39,7 +39,6 @@ public class Distance {
          for (int j = 0; j < clientes.size();++j) {
              distancias[i][j] = distancia(clientes.get(j).getCoordX(),clientes.get(j).getCoordY(),
                      centrales.get(i).getCoordX(),centrales.get(i).getCoordY());
-             if (distancias[i][j] > max_dist) max_dist = distancias[i][j];
             }
          }
     }
