@@ -8,7 +8,9 @@ import IA.Energia.VEnergia;
 import java.util.ArrayList;
 
 import static prac1_ia.Practica.distancias;
-
+/**
+ * Clase que representa el estado.
+ */
 public class Board {
 
     /**
