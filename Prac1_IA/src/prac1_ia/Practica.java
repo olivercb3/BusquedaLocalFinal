@@ -22,6 +22,8 @@ public class Practica {
         board = new Board(centrales,clientes);
         imprimir_estado(board);
         HillClimbingSearch(board);
+        //SimulatedAnnealingSearch(board);
+        
     }
     
     private static void HillClimbingSearch(Board board) {
@@ -45,19 +47,19 @@ public class Practica {
         }
     }
 
-    private static void SimulatedAnnealingSearch(Board board, int steps, int steps_cambioT, int k, double lamb) {
+    private static void SimulatedAnnealingSearch(Board board) {
         System.out.println("\nSimulated Annealing  -->");
         try {
 
             //valores por defecto, esto cuando se llamen se definen
-            steps = 2000;
-            steps_cambioT = 100;
-            k = 5;
-            lamb = 0.001;
+            int steps = 2000;
+            int steps_cambioT = 100;
+            int k = 5;
+            double lamb = 0.001;
 
             Heuristic H = new Heuristic();
-            SuccesorFunctionEnergy S = new SuccesorFunctionEnergy();
-            S.setOperators(true, true, true);
+            SuccesorFunctionSimulatedAnnealing S = new SuccesorFunctionSimulatedAnnealing();
+            
 
             Problem problem =  new Problem(board,S, new GoalTestEnergy(),H);
             SimulatedAnnealingSearch search =  new SimulatedAnnealingSearch(steps,steps_cambioT,k,lamb);
