@@ -29,17 +29,17 @@ public class Practica {
         try {
             Heuristic H = new Heuristic();
             SuccesorFunctionEnergy S = new SuccesorFunctionEnergy();
-            S.setOperators(true, true, true);
+            S.setOperators(false, true, true);
 
             Problem problem =  new Problem(board,S, new GoalTestEnergy(),H);
             Search search =  new HillClimbingSearch();
             SearchAgent agent = new SearchAgent(problem,search);
             Board goalState = (Board) search.getGoalState();
 
+            imprimir_estado(goalState);
+
             printActions(agent.getActions());                 //Imprime todos los operadores usados
             printInstrumentation(agent.getInstrumentation()); //Imprimero el numero de nodos expandidos
-
-            imprimir_estado(goalState);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,10 +64,10 @@ public class Practica {
             SearchAgent agent = new SearchAgent(problem,search);
             Board goalState = (Board) search.getGoalState();
 
+            imprimir_estado(goalState);
+
             printActions(agent.getActions());                 //Imprime todos los operadores usados
             printInstrumentation(agent.getInstrumentation()); //Imprimero el numero de nodos expandidos
-
-            imprimir_estado(goalState);
         } catch (Exception e) {
             e.printStackTrace();
         }
