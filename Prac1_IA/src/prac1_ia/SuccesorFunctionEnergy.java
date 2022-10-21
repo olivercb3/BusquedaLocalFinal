@@ -33,7 +33,7 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         //operatorRemove();
         //operatorAdd();
         //operatorInterchange();
-        //operatorSwap();
+        operatorSwap();
         OperatorSwitch();
         OpeartorVaciarCentral();
         return sucesoresCreados; 
@@ -73,15 +73,16 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
         for (int i = 0; i < b.size()-1;++i) {
             for (int j = 0; j < b.get(i).size();++j) {
-                for (int k = i+1; k < b.size()-1;++k) {
+                for (int k = i+1; k < b.size();++k) {
                     for (int s = 0; s < b.get(k).size(); ++s) {
+                        
                         int client1 = b.get(i).get(j);
                         Cliente cl1 = tablero.getClientes().get(client1);
                         
                         int client2 = b.get(k).get(s);
                         Cliente cl2 = tablero.getClientes().get(client2);
                         
-                        if (k == tablero.getCentrales().size()-1) {
+                        if (k == b.size()-1) {
                             double dist = distancias.get_dist(i, client1);
                             double consumo = cl1.getConsumo() + cl1.getConsumo() * VEnergia.getPerdida(dist);
                             double n_dist = distancias.get_dist(i, client2);
@@ -117,7 +118,7 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                             double n_dist2 = distancias.get_dist(i, client2);
                             double n_consumo2 = cl2.getConsumo() + cl2.getConsumo() * VEnergia.getPerdida(n_dist2);
                             
-                            if (n_consumo1 <= ((tablero.getProduccionRestante())[k]+consumo2)&& n_consumo2 <= ((tablero.getProduccionRestante())[i])+consumo1) {
+                            if (n_consumo1 <= ((tablero.getProduccionRestante())[k]+consumo2) && n_consumo2 <= ((tablero.getProduccionRestante())[i])+consumo1) {
                                 Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
                                 copiaTablero.getAssignaciones().get(i).remove(j);
                                 copiaTablero.getAssignaciones().get(k).remove(s);

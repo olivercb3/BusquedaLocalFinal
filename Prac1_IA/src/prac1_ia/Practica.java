@@ -19,6 +19,40 @@ public class Practica {
      
     public static void main(String[] args) throws Exception {
 
+        /*Scanner capt = new Scanner(System.in);
+        System.out.print("Ingrese numero de centrales de tipo A\t: ");
+        int nc_tipoA = capt.nextInt();
+
+        System.out.print("Ingrese numero de centrales de tipo B\t: ");
+        int nc_tipoB = capt.nextInt();
+
+        System.out.print("Ingrese numero de centrales de tipo C\t: ");
+        int nc_tipoC = capt.nextInt();
+
+        int[] numero_centrales = {nc_tipoA,nc_tipoB,nc_tipoC};
+
+        System.out.print("Ingrese numero de clientes\t: ");
+        int numero_clientes = capt.nextInt();
+
+        System.out.print("Ingrese proporción de clientes con consumo grande (numero entre 0 y 100) \t:");
+        int p1_aux = capt.nextInt();
+        double p1 = (double)p1_aux/100.0; 
+        System.out.println(p1);
+
+        System.out.print("Ingrese proporción de clientes con consumo muy grande (numero entre 0 y 100) \t:");
+        int p2_aux = capt.nextInt();
+        double p2 = (double)p2_aux/100.0; 
+        System.out.println(p2);
+
+        System.out.print("Ingrese proporción de clientes con consumo extra grande (numero entre 0 y 100) \t:");
+        int p3_aux = capt.nextInt();
+        double p3 = (double)p3_aux/100.0; 
+        System.out.println(p3);
+
+        System.out.print("Ingrese proporción de clientes con consumo servicio garantizadop (numero entre 0 y 100) \t:");
+        double proporcion_prioridad = capt.nextDouble();
+
+        double[] proporcion_tipos_clientes = {p1, p2, p3};*/
         Random myRandom = new Random(4388);
 
         int nc_tipoA = 5; //myRandom.nextInt(5);
@@ -26,7 +60,7 @@ public class Practica {
         int nc_tipoC = 25;//myRandom.nextInt(25);
 
         int[] numero_centrales = {nc_tipoA,nc_tipoB,nc_tipoC};
-        int numero_clientes = 10000;//myRandom.nextInt(1000);
+        int numero_clientes = 1000;//myRandom.nextInt(1000);
 
 
         myRandom.nextInt(1000);
@@ -46,7 +80,7 @@ public class Practica {
 
         board = new Board(centrales,clientes);
 
-        imprimir_estado(board);
+        //imprimir_estado(board);
 
         Heuristic H = new Heuristic();
         SuccessorFunction S = new SuccesorFunctionEnergy();

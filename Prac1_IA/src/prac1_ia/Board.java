@@ -51,7 +51,7 @@ public class Board {
         for (int i = 0; i < cl.size(); ++i) {
             assignaciones.get(cen.size()).add(i);
         }
-        InitialState_Greedy();
+        InitialState();
     }
 
     //constructor_copia
@@ -315,7 +315,7 @@ public class Board {
             Cliente cl = clientes.get(client);
             if(cl.getContrato() == 1){
                 solucion = false;
-                System.out.println("NO ES SOLUCION");
+                //System.out.println("NO ES SOLUCION");
                 System.out.println();
             }
         }
