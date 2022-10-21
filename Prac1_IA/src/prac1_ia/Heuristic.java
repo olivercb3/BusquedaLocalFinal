@@ -107,8 +107,8 @@ public class Heuristic implements HeuristicFunction {
     }
 
     /**
-     * Función heurística que minimiza la producción restante priorizando centrales más grandes (objetivo minimizar).
-     * Para el peso que se le asigna a cada tipo de central se utiliza la division coste_producción/coste_producción_minimo
+     * Función heurística que minimiza la suma de distancias de todas las asignaciones (objetivo minimizar).
+     * Para penalizar los de la central vacia se les asigna la distancia maxima de las encontradas.
      */
     //heuristica suma de distancias (objetivo minimizar)
     public double sum_ditancias() throws Exception {
