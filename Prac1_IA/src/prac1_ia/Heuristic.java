@@ -108,7 +108,7 @@ public class Heuristic implements HeuristicFunction {
 
     /**
      * Función heurística que minimiza la suma de distancias de todas las asignaciones (objetivo minimizar).
-     * Para penalizar los de la central vacia se les asigna la distancia maxima de las encontradas.
+     * Para penalizar los de la central vacia se les asigna la distancia maxima posible.
      */
     //heuristica suma de distancias (objetivo minimizar)
     public double sum_ditancias() throws Exception {
