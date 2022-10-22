@@ -28,15 +28,17 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         if(operators.get(i++)) operatorSwap();
         if(operators.get(i++)) OperatorSwitch();
         if(operators.get(i++)) OpeartorVaciarCentral();
+        if (operators.get(i++)) OpeartorRellenarCentral();
 
         return sucesoresCreados;
     }
     
-    public void setOperators(Boolean opSwap, Boolean opSwitch, Boolean opVaciarCentral){
-        operators = new ArrayList<>(3);
+    public void setOperators(Boolean opSwap, Boolean opSwitch, Boolean opVaciarCentral, Boolean opRellenarCentral){
+        operators = new ArrayList<>(4);
         operators.add(opSwap);
         operators.add(opSwitch);
         operators.add(opVaciarCentral);
+        operators.add(opRellenarCentral);
 
     }
 
@@ -181,6 +183,56 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                                             "Central " + i + " ha sido vaciada",
                                             copiaTablero));
            
+        }
+    }
+    
+    private void OpeartorRellenarCentral() {
+        
+        ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
+        int client;
+        double dist, consumo;
+        Cliente cl;
+        
+        for (int i = 0; i < b.size()-1; ++i) {
+            ArrayList<Integer> provisional = new  ArrayList<Integer>();
+            double prod_central = tablero.getCentrales().get(i).getProduccion(), prod_res = tablero.getProduccionRestante()[i];
+            double sum = prod_res;
+            if ((prod_res/prod_central) > 0.7){
+                //System.out.print("------------------------" + i + " " + (b.size()-1) + " ");
+                for (int j = 0; j < b.get(b.size()-1).size() && (sum/prod_central > 0.1); ++j) {
+                     client = b.get(b.size()-1).get(j);
+                     dist = distancias.get_dist(i, client);
+                     cl = tablero.getClientes().get(client);
+                     consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
+                     if ((sum - consumo) < 0);
+                     //else if ((sum - consumo)/prod_central > 0.1) {
+                     else {
+                         sum -= consumo;
+                         provisional.add(j);
+                     }
+                    // }
+                }
+                System.out.print("Aqui: " +  provisional.size() +  " " + sum + " ");
+                
+                if (sum/prod_central <= 0.1) {
+                     System.out.print("entro");
+                     Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
+                    for (int j = 0; j < provisional.size(); ++j) {
+                        client = b.get(b.size()-1).get(provisional.get(j));
+                        dist = distancias.get_dist(i, client);
+                        cl = tablero.getClientes().get(client);
+                        consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
+                        //Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
+                        copiaTablero.getAssignaciones().get(b.size()-1).remove(provisional.get(j));
+                        copiaTablero.getAssignaciones().get(i).add(client);
+                       // System.out.print("Consumoooo: " + consumo + " ");
+                        copiaTablero.getProduccionRestante()[i] -= consumo;
+                    }
+                    sucesoresCreados.add(new Successor(
+                                "Grupo de clientes ha sido añadido a la central " + i,
+                                copiaTablero));
+                }
+            }  
         }
     }
 

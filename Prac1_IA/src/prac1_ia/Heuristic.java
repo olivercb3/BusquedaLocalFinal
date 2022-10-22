@@ -25,7 +25,7 @@ public class Heuristic implements HeuristicFunction {
     public double getHeuristicValue(Object state) {
         Heuristic.state = (Board) state;
         try {
-            return p_res();
+            return -heuristicValue();
         }
         catch (Exception e) {
             System.out.print(e);
