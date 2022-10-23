@@ -30,7 +30,7 @@ public class Heuristic implements HeuristicFunction {
     public double getHeuristicValue(Object state) {
         Heuristic.state = (Board) state;
         try {
-            return -heuristicValue();
+            return sum_ditancias();
         }
         catch (Exception e) {
             System.out.print(e);
@@ -77,19 +77,11 @@ public class Heuristic implements HeuristicFunction {
         System.out.println();
         return sum;
     }
-    
-
-    // heuristica que minimiza la produccion restante priorizando centrales mas grandes (objetivo minimizar)
-    // tipo 0 = tipo A, tipo 1 = tipo B, tipo 2 = tipo C
-    // tipo A > B > C.
-    // coste_marcha/coste_parada (cuanto cuesta de mas tenerlo en marcha respecto parado, sin nadie):
-    // A = 1.33333, B = 2, C = 3,3333333
-    // (ben_medio*max_prod - max_prod * coste_prod)/coste_parada (margen de beneficio maximo, ben_medio = 500):
-    // A = 21.166666, B = 19, C = 20
 
     /**
      * Función heurística que minimiza la producción restante priorizando centrales más grandes y el numero de clientes sin
-     * asignar priotizando a los clientes mas grandes (objetivo minimizar).Para el peso que se le asigna a cada tipo de central se utiliza la division coste_producción/coste_producción_minimo
+     * asignar priotizando a los clientes mas grandes (objetivo minimizar).
+     * Para el peso que se le asigna a cada tipo de central se utiliza la division coste_producción/coste_producción_minimo
         y se multiplica la porcion de la producion libre de cada central.Para el de los clientes se usa la division beneficio_Mw/beneficio_min, que beneficia a los clientes pequeños que tienen un mejor ratio.
      * Para la suma de ambos se multiplica el de los clientes por 1.8, para igualar ponderaciones ( 1,8 = 3/(5/3) )
      * @return double
@@ -122,11 +114,11 @@ public class Heuristic implements HeuristicFunction {
     }
     
     /**
-     * Función heurística que minimiza la suma de distancias de todas las asignaciones (objetivo minimizar).Para penalizar los de la central vacia se les asigna la distancia maxima posible.
+     * Función heurística que minimiza la suma de distancias de todas las asignaciones (objetivo minimizar).
+     * Para penalizar los de la central vacia se les asigna la distancia maxima posible.
      * @return double
      * @throws java.lang.Exception
      */
-    //heuristica suma de distancias (objetivo minimizar)
     public double sum_ditancias() throws Exception {
         
         double sum = 0;
