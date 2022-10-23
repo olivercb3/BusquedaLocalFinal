@@ -105,7 +105,7 @@ public class Board {
                         --j;
                         produccionRestante[i] -= consumo;
                     }
-                    else if (cl.getContrato() == 1) {
+                    else if (1 > produccionRestante[i]) {
                         max_superat = true;
                         ++indice_central;
                     }
@@ -125,13 +125,14 @@ public class Board {
                 Cliente cl = clientes.get(client);
                 double dist = distancias.get_dist(i, client);
                 double consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
+
                 if (cl.getContrato() == 0 && consumo < produccionRestante[i]) {
                     assignaciones.get(i).add(client);
                     cental_vacia.remove(j);
                     --j;
                     produccionRestante[i] -= consumo;
                 }
-                else if(cl.getContrato() == 0){
+                else if(1 > produccionRestante[i]){
                     max_superat = true;
                     ++indice_central;
                 }

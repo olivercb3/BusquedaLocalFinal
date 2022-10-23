@@ -6,8 +6,6 @@ import java.util.*;
 import aima.search.framework.*;
 import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
-import com.opencsv.CSVWriter;
-import java.io.FileWriter;
 
 public class Practica {
     
@@ -19,12 +17,12 @@ public class Practica {
     /**
      * Vector de las centrales.
      */
-     public static Centrales centrales;
+     private static Centrales centrales;
      
      /**
      * Vector de los clientes.
      */
-     public static Clientes clientes;
+     private static Clientes clientes;
      
      /**
      * Instancia de la clase Distance.

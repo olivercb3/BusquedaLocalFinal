@@ -47,10 +47,10 @@ public class Heuristic implements HeuristicFunction {
         int sum = 0;
         int tipo_central;
 
+
         for (int i = 0; i < state.getAssignaciones().size()-1; ++i) {
-            
+
             int numero_clients = state.getAssignaciones().get(i).size();
-            //System.out.print(numero_clients + " ");
             tipo_central = state.getCentrales().get(i).getTipo();
             if (numero_clients == 0) {
                 sum -= VEnergia.getCosteParada(tipo_central);
@@ -66,13 +66,18 @@ public class Heuristic implements HeuristicFunction {
                         sum += cl.getConsumo()*VEnergia.getTarifaClienteNoGarantizada(cl.getTipo());
                     }
                 }
-                sum -= VEnergia.getCosteMarcha(tipo_central) + VEnergia.getCosteProduccionMW(tipo_central)*state.getCentrales().get(i).getProduccion();
+                sum -= VEnergia.getCosteMarcha(tipo_central) + VEnergia.getCosteProduccionMW(tipo_central) * state.getCentrales().get(i).getProduccion();
             }
-        } 
+        }
+
+        ArrayList<Integer> central_vacia= state.getAssignaciones().get(state.getCentrales().size());
+        sum -= 50 * central_vacia.size();
+
         System.out.print(sum);
         System.out.println();
         return sum;
     }
+    
 
     // heuristica que minimiza la produccion restante priorizando centrales mas grandes (objetivo minimizar)
     // tipo 0 = tipo A, tipo 1 = tipo B, tipo 2 = tipo C
