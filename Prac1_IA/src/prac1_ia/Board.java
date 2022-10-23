@@ -50,7 +50,7 @@ public class Board {
         for (int i = 0; i < cl.size(); ++i) {
             assignaciones.get(cen.size()).add(i);
         }
-        InitialState();
+        InitialState_Greedy();
     }
 
     /**

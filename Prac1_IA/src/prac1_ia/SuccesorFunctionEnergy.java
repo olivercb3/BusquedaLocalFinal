@@ -141,7 +141,7 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                                 copiaTablero.getProduccionRestante()[i] += consumo;
                                 copiaTablero.getProduccionRestante()[j] -= n_consumo;
                                 sucesoresCreados.add(new Successor(
-                                        "Cliente " + c + " ha sido movido de la central " + i + " a la central " + j,
+                                        "Cliente " + client + " ha sido movido de la central " + i + " a la central " + j,
                                         copiaTablero));
                             }
                         }
