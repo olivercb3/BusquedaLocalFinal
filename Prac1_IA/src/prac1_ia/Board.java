@@ -12,13 +12,13 @@ import static prac1_ia.Practica.distancias;
  * Clase que representa el estado.
  */
 public class Board {
-
+    
     /**
-     * Instancia dee la clase proporcionada de clientes, con array de todas las clientes
+     * Instancia de la clase proporcionada de clientes, con array de todos los clientes
      */
     private static Clientes clientes;
     /**
-     * Instancia dee la clase proporcionada de centrales, con array de todas las centrales
+     * Instancia de la clase proporcionada de centrales, con array de todas las centrales
      */
     private static Centrales centrales;
     /**
@@ -28,14 +28,14 @@ public class Board {
     private ArrayList<ArrayList<Integer>> assignaciones;
 
     /**
-     * Vector con la producción disponible para cada central
+     * Vector con la producción disponible para cada central, ordenado por el mismo orden que el de centrales
      */
     private double [] produccionRestante;
 
     /**
      * Constructor del estado.
      * @param cen Centrales que se utilizaran en el problema
-     * @param cl Centrales que se utilizaran en el problema
+     * @param cl Clientes que se utilizaran en el problema
      * Genera un estado con todos los clientes sin asignar, o aplicando alguna de las estrategias de generación de solución inicial
      */
     public Board(Centrales cen, Clientes cl) {
@@ -56,9 +56,9 @@ public class Board {
     /**
      * Constructor copia del estado.
      * @param cen Centrales que se utilizaran en el problema
-     * @param cl Centrales que se utilizaran en el problema
+     * @param cl Clientes que se utilizaran en el problema
      * @param a Assignaciones del estado en el momento se quiere copiar
-     * @param p Prododucciones restantes de las centrales en el momento que se quiere copiar
+     * @param p Producciones restantes de las centrales en el momento que se quiere copiar
      * Genera un estado con las mismas características especificadas en los parámetros
      */
     public Board(Centrales cen, Clientes cl, ArrayList<ArrayList<Integer>> a, double [] p) {

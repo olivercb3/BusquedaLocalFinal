@@ -9,18 +9,23 @@ import IA.Energia.VEnergia;
 import IA.Energia.Cliente;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static prac1_ia.Practica.distancias;
 
 
-/**
- *
- * @author olivercemelibarron
- */
 public class Heuristic implements HeuristicFunction {
     
+    /**
+     * Instancia de la clase Board
+     */
     private static Board state;
     
+    /**
+     * Función GoalState
+     * @param state El objeto para saber si es Goal State o no
+     * @return boolean
+     */
     @Override
     public double getHeuristicValue(Object state) {
         Heuristic.state = (Board) state;
@@ -33,6 +38,11 @@ public class Heuristic implements HeuristicFunction {
         }
     }
     
+    /**
+     * Función que devuelve el valor heuristico del estado.
+     * @return double
+     * @throws java.lang.Exception
+     */
     public double heuristicValue() throws Exception {
         int sum = 0;
         int tipo_central;
@@ -63,6 +73,19 @@ public class Heuristic implements HeuristicFunction {
         System.out.println();
         return sum;
     }
+    
+     private static List<String[]> createCsvDataSimple() {
+        String[] header = {"id", "name", "address", "phone"};
+        String[] record1 = {"1", "first name", "address 1", "11111"};
+        String[] record2 = {"2", "second name", "address 2", "22222"};
+
+        List<String[]> list = new ArrayList<>();
+        list.add(header);
+        list.add(record1);
+        list.add(record2);
+
+        return list;
+    }
 
     // heuristica que minimiza la produccion restante priorizando centrales mas grandes (objetivo minimizar)
     // tipo 0 = tipo A, tipo 1 = tipo B, tipo 2 = tipo C
@@ -74,11 +97,11 @@ public class Heuristic implements HeuristicFunction {
 
     /**
      * Función heurística que minimiza la producción restante priorizando centrales más grandes y el numero de clientes sin
-     * asignar priotizando a los clientes mas grandes (objetivo minimizar).
-     * Para el peso que se le asigna a cada tipo de central se utiliza la division coste_producción/coste_producción_minimo
-     * y se multiplica la porcion de la producion libre de cada central.
-     * Para el de los clientes se usa la division beneficio_Mw/beneficio_min, que beneficia a los clientes pequeños que tienen un mejor ratio.
+     * asignar priotizando a los clientes mas grandes (objetivo minimizar).Para el peso que se le asigna a cada tipo de central se utiliza la division coste_producción/coste_producción_minimo
+        y se multiplica la porcion de la producion libre de cada central.Para el de los clientes se usa la division beneficio_Mw/beneficio_min, que beneficia a los clientes pequeños que tienen un mejor ratio.
      * Para la suma de ambos se multiplica el de los clientes por 1.8, para igualar ponderaciones ( 1,8 = 3/(5/3) )
+     * @return double
+     * @throws java.lang.Exception
      */
     public double p_res() throws Exception {
 
@@ -105,14 +128,15 @@ public class Heuristic implements HeuristicFunction {
         System.out.println();
         return sum + 1.8 * sum2;
     }
-
+    
     /**
-     * Función heurística que minimiza la suma de distancias de todas las asignaciones (objetivo minimizar).
-     * Para penalizar los de la central vacia se les asigna la distancia maxima posible.
+     * Función heurística que minimiza la suma de distancias de todas las asignaciones (objetivo minimizar).Para penalizar los de la central vacia se les asigna la distancia maxima posible.
+     * @return double
+     * @throws java.lang.Exception
      */
     //heuristica suma de distancias (objetivo minimizar)
     public double sum_ditancias() throws Exception {
-
+        
         double sum = 0;
         ArrayList<ArrayList<Integer>> assignaciones = state.getAssignaciones();
         for (int i = 0; i< assignaciones.size(); ++i)
@@ -124,9 +148,6 @@ public class Heuristic implements HeuristicFunction {
                 }
                 else sum += distancias.getMax_dist();
             }
-
-        //System.out.print(sum);
-        //System.out.println();
         return sum;
     }
 }

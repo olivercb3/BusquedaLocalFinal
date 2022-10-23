@@ -12,17 +12,30 @@ import static prac1_ia.Practica.distancias;
 
 public class SuccesorFunctionEnergy implements SuccessorFunction {
     
+    /**
+     * Sucesores generados por un estado concreto.
+     */
     private static List<Successor> sucesoresCreados;
-    private static Board tablero;
-    private static ArrayList<Boolean> operators;
-    ArrayList<ArrayList<Integer>> assignaciones; 
-
     
+    /**
+     * Tablero de centrales y clientes.
+     */
+    private static Board tablero;
+    /**
+     * Operadores que se utilitzan.
+     */
+    private static ArrayList<Boolean> operators;
+    
+    /**
+     * Obtiene los sucesores de un estado state.
+     * @param state estado a partir del cual se encuentran sus sucesores.
+     * @return Lista de sucesores
+     */
     @Override
     public List getSuccessors(Object state) {
         sucesoresCreados = new ArrayList<>(); 
         tablero = (Board) state;
-        assignaciones = tablero.getAssignaciones();
+        tablero.getAssignaciones();
 
         int i=0;
         if(operators.get(i++)) operatorSwap();
@@ -33,6 +46,13 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         return sucesoresCreados;
     }
     
+    /**
+     * Obtiene los sucesores de un estado state.
+     * @param opSwap booleano que si está true es que se usarà el operador de swap.
+     * @param opSwitch booleano que si está true es que se usarà el operador de switch.
+     * @param opVaciarCentral booleano que si está true es que se usarà el operador de vaciar central.
+     * @param opRellenarCentral booleano que si está true es que se usarà el operador de rellenar central.
+     */
     public void setOperators(Boolean opSwap, Boolean opSwitch, Boolean opVaciarCentral, Boolean opRellenarCentral){
         operators = new ArrayList<>(4);
         operators.add(opSwap);
@@ -42,7 +62,9 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
 
     }
 
-
+    /**
+     * Intercambia un cliente de la central vacía, con un cliente de las centrales del tablero. 
+     */
     private void operatorSwap() {
 
         ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
@@ -87,6 +109,9 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         }
     }
 
+    /**
+     * Mueve un cliente de una central a otra.
+     */
     private void OperatorSwitch() {
         ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
         double[] p_restante = tablero.getProduccionRestante();
@@ -158,8 +183,9 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
          }
     }
 
-    // Vacia una central y la pone en la vacia, no se escojera porque los lleva a la central vacia por lo que tendran que
-    // pagar la penalizacion y no se consigue ningun beneficio. Se deberia enviar a qualquier central no solo a la vacia
+    /**
+     * Vacia una central y la pone en la vacía.
+     */
     private void OpeartorVaciarCentral() {
 
         ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
@@ -186,6 +212,9 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
         }
     }
     
+    /**
+     * Llena una central a partir de los clientes de la central vacía.
+     */
     private void OpeartorRellenarCentral() {
         
         ArrayList<ArrayList<Integer>> b = tablero.getAssignaciones();
@@ -198,19 +227,16 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
             double prod_central = tablero.getCentrales().get(i).getProduccion(), prod_res = tablero.getProduccionRestante()[i];
             double sum = prod_res;
             if ((prod_res/prod_central) > 0.7){
-                //System.out.print("------------------------" + i + " " + (b.size()-1) + " ");
                 for (int j = 0; j < b.get(b.size()-1).size() && (sum/prod_central > 0.1); ++j) {
                      client = b.get(b.size()-1).get(j);
                      dist = distancias.get_dist(i, client);
                      cl = tablero.getClientes().get(client);
                      consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
                      if ((sum - consumo) < 0);
-                     //else if ((sum - consumo)/prod_central > 0.1) {
                      else {
                          sum -= consumo;
                          provisional.add(j);
                      }
-                    // }
                 }
                 System.out.print("Aqui: " +  provisional.size() +  " " + sum + " ");
                 
@@ -222,10 +248,8 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
                         dist = distancias.get_dist(i, client);
                         cl = tablero.getClientes().get(client);
                         consumo = cl.getConsumo() + cl.getConsumo() * VEnergia.getPerdida(dist);
-                        //Board copiaTablero = new Board(tablero.getCentrales(), tablero.getClientes(), tablero.getAssignaciones(), tablero.getProduccionRestante());
                         copiaTablero.getAssignaciones().get(b.size()-1).remove(provisional.get(j));
                         copiaTablero.getAssignaciones().get(i).add(client);
-                       // System.out.print("Consumoooo: " + consumo + " ");
                         copiaTablero.getProduccionRestante()[i] -= consumo;
                     }
                     sucesoresCreados.add(new Successor(
@@ -235,62 +259,4 @@ public class SuccesorFunctionEnergy implements SuccessorFunction {
             }  
         }
     }
-
-    /*
-    private void operatorAdd() { //funciona
-        for (int i = 0; i < assignaciones.size()-1;++i) {
-            for (int j = 0;j < assignaciones.get(assignaciones.size()-1).size();++j) { //recorre los no asignados
-                int no_assignado = assignaciones.get(assignaciones.size()-1).get(j);
-                Board copia = tablero;
-                double prod_res = copia.getProduccionRestante()[i];
-                double consumo_cliente = copia.getClientes().get(no_assignado).getConsumo();
-                if (prod_res > consumo_cliente) {
-                    copia.getProduccionRestante()[i] -= consumo_cliente;
-                    copia.afegeix(i, no_assignado);
-                    copia.esborra(assignaciones.size()-1, j);
-                }
-                sucesoresCreados.add(new Successor(
-                                "HOLA",
-                                copia));
-            }
-        }
-    }
-
-    private void operatorRemove() { //funciona
-        for (int i = 0; i < assignaciones.size();++i) {
-            for (int j = 0; j < assignaciones.get(i).size();++j) {
-                Board copiaTablero = tablero;
-                int indice_cliente = assignaciones.get(i).get(j);
-                if (copiaTablero.getClientes().get(indice_cliente).getContrato() == 0) {
-                    copiaTablero.remove(i,j);
-                }
-                sucesoresCreados.add(new Successor(
-                                "Cliente borrado " + j + "en la central" + i,
-                                copiaTablero));
-            }
-        }
-    }
-
-    private void operatorInterchange() { //funciona
-        for (int i = 0; i < assignaciones.size()-2; ++i) {
-            for (int c = 0; c < assignaciones.get(i).size();++c) {
-                for (int j = i+1; j < assignaciones.size()-1; ++j) {
-                     for (int k = 0; k < assignaciones.get(j).size();++k) {
-                        Board copiaTablero = tablero;
-                        copiaTablero.interchange(i,j,c,k);
-                        sucesoresCreados.add(new Successor(
-                                    "Intercambio entre los clientes" + c + "y " + k +
-                                            "de las centrales" + i + "y " + j + "respectivamente",
-                                    copiaTablero));
-                    }
-                }
-             }
-         }
-      }
-
-    */
 }
-
-//3 operadores: switch, swap, rellenar central
-//proposta que els clients estiguessin ordenats dins de la matriu, no se encara exactament perque pero podria ser util a nivell de temps
-

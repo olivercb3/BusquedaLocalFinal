@@ -13,10 +13,7 @@ import java.util.List;
 import java.util.Random;
 import static prac1_ia.Practica.distancias;
 
-/**
- *
- * @author olivercemelibarron
- */
+
 public class SuccesorFunctionSimulatedAnnealing implements SuccessorFunction{
     
     

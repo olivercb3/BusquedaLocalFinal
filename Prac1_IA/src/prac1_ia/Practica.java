@@ -6,26 +6,71 @@ import java.util.*;
 import aima.search.framework.*;
 import aima.search.informed.HillClimbingSearch;
 import aima.search.informed.SimulatedAnnealingSearch;
+import com.opencsv.CSVWriter;
+import java.io.FileWriter;
 
 public class Practica {
     
+    /**
+     * Instancia de la clase Board.
+     */
     private static Board board; 
 
+    /**
+     * Vector de las centrales.
+     */
      public static Centrales centrales;
+     
+     /**
+     * Vector de los clientes.
+     */
      public static Clientes clientes;
+     
+     /**
+     * Instancia de la clase Distance.
+     */
      public static  Distance distancias;
      
+    /**
+     * Clase principal.
+     * @param args argumentos main
+     * @throws java.lang.Exception Si algo falla
+     */
     public static void main(String[] args) throws Exception {
 
-        generar_aleatorio();
+        /*generar_aleatorio();
         distancias = Distance.getInstance(centrales,clientes);
         board = new Board(centrales,clientes);
         imprimir_estado(board);
         HillClimbingSearch(board);
         //SimulatedAnnealingSearch(board);
+        */
+        List<String[]> csvData = createCsvDataSimple();
+
+        
+        try (CSVWriter writer = new CSVWriter(new FileWriter("C:\\Users\\pau20\\OneDrive\\Escritorio\\UPC\\IA\\test.csv"))) {
+            writer.writeAll(csvData);
+        }
         
     }
     
+    private static List<String[]> createCsvDataSimple() {
+        String[] header = {"id", "name", "address", "phone"};
+        String[] record1 = {"1", "first name", "address 1", "11111"};
+        String[] record2 = {"2", "second name", "address 2", "22222"};
+
+        List<String[]> list = new ArrayList<>();
+        list.add(header);
+        list.add(record1);
+        list.add(record2);
+
+        return list;
+    }
+    
+    /**
+     * Búsqueda Hill Climbing.
+     * @param board Tablero de centrales y clientes.
+     */
     private static void HillClimbingSearch(Board board) {
         System.out.println("\nHillClimbing  -->");
         try {
@@ -47,6 +92,10 @@ public class Practica {
         }
     }
 
+    /**
+     * Ejecución del algoritmo de Simulated Annealing.
+     * @param board Tablero de centrales y clientes.
+     */
     private static void SimulatedAnnealingSearch(Board board) {
         System.out.println("\nSimulated Annealing  -->");
         try {
@@ -75,29 +124,34 @@ public class Practica {
         }
     }
 
+    /**
+     * Printa los nodos que ha expandido
+     * @param properties parametro necesario para la ejecución de la función.
+     */
     private static void printInstrumentation(Properties properties) {
         Iterator keys = properties.keySet().iterator();
         while (keys.hasNext()) {
             String key = (String) keys.next();
             String property = properties.getProperty(key);
             System.out.println(key + " : " + property);
-        }
-
+        } 
     }
 
+    /**
+     * Printa los operadores que ha ido aplicando.
+     * @param actions Acciones en cuestión.
+     */
     private static void printActions(List actions) {
         for (int i = 0; i < actions.size(); i++) {
             String action = (String) actions.get(i);
             System.out.println(action);
         }
     }
-    
-    public static void runSimulation() {
 
-    }
-
-    //Funcion auxiliar
-
+    /**
+     * Impresión del estado por terminal.
+     * @param o Tablero de centrales y clientes.
+     */
     private static  void imprimir_estado(Object o){
 
         Board board = (Board) o;
@@ -117,6 +171,10 @@ public class Practica {
         }
         System.out.println();
     }
+    
+    /**
+     * Función con los inputs aleatorios a través de la terminal.
+     */
     private static void generar_aleatorio() throws Exception{
 
         Random myRandom = new Random(4388);
@@ -139,7 +197,10 @@ public class Practica {
         centrales = new Centrales(numero_centrales, 1);
         clientes = new Clientes(numero_clientes, proporcion_tipos_clientes, proporcion_prioridad, 291200);
     }
-
+    
+    /**
+     * Función con los inputs a mano a través de la terminal.
+     */
     private static void generar_manual() throws Exception {
 
         Scanner capt = new Scanner(System.in);
