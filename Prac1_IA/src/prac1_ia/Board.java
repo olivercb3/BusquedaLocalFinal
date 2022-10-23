@@ -81,7 +81,6 @@ public class Board {
      * con producción sobrante asigna los clientes restantes. La estrategia de asignación es seguir el orden de número de centrales
      * y de clientes.
      */
-
     private void InitialState() {
 
         int indice_central = 0;
@@ -147,7 +146,6 @@ public class Board {
      * ese cliente con todas las centrales. Cuando acabe con los clientes prioritarios, en las centrales con producción disponible incluirá
      * los clientes que se encuentren por debajo de la media de distancias de esa central.
      */
-
     private void InitialState_Greedy() {
 
         for (int i = 0; i < centrales.size(); ++i)
@@ -301,7 +299,7 @@ public class Board {
             Cliente cl = clientes.get(client);
             if(cl.getContrato() == 1){
                 solucion = false;
-                //System.out.println("NO ES SOLUCION");
+                System.out.println("NO ES SOLUCION");
                 System.out.println();
             }
         }
